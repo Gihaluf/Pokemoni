@@ -4,36 +4,53 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 public class pokemon {
 	
-	//panel size 751x565
-	//panel location 32x109
+	//main panel size 751x565
+	//main panel location 32x109
 	
 	public static void main(String[] args) {
+		//main frame
+		JFrame main = new JFrame();
+		main.setLocation(150, 50);
+		main.setSize(1244, 700);
+		
 		//main panel
 		JPanel panel = new JPanel();
 		panel.setSize(751, 565);
 		panel.setLocation(32, 109);
 		panel.setOpaque(false);
+		
 		//startup frame
 		ImageIcon gif = new ImageIcon("bildes/Startup.gif");
 		JLabel Sgif = new JLabel(gif);
 		Sgif.setSize(751, 560);
 		panel.add(Sgif);
-
+		
+		
 		
 		JPanel Pokemon = new JPanel();
+		Pokemon.setSize(260, 165);
+		Pokemon.setLocation(915, 90);
+	
+		ImageIcon bulb = new ImageIcon("bildes/Bulbasaur.png");
+		JLabel Bulbasaur = new JLabel(bulb);
+		Bulbasaur.setSize(260, 167);
+		Pokemon.add(Bulbasaur);
+		Pokemon.setOpaque(false);
 		
-		JPanel Info = new JPanel();
+		
+		JPanel menu = new JPanel();
+		menu.setSize(332, 298);
+		menu.setLocation(879, 371);
+		menu.setOpaque(false);
 		
 		
-		JFrame main = new JFrame();
-		main.setLocation(150, 50);
-		main.setSize(1244, 700);
+		
+		
 		
 		ImageIcon icon = new ImageIcon("bildes/pokeframe.png");
 		JLabel background = new JLabel(icon);
@@ -51,8 +68,9 @@ public class pokemon {
 		Stop.addActionListener(e -> System.exit(0));
 		
 		
-		
 		main.add(panel);
+		main.add(menu);
+		main.add(Pokemon);
 		
 		
 		
@@ -60,12 +78,5 @@ public class pokemon {
 		
 		
 	}
-	static void timer(int n){
-        try {
-            Thread.sleep(n);
-        }catch (Exception e){
-            JOptionPane.showMessageDialog(null, "Error", "Error", JOptionPane.ERROR_MESSAGE);
-        }
-   }
 	
 }
