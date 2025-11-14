@@ -5,6 +5,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 public class pokemon {
@@ -59,10 +60,18 @@ public class pokemon {
 		
 		//pokedex button
 		JButton Pokedex = new JButton();
-		Pokedex.setSize(84, 60);
-		Pokedex.setLocation(200, 12);
-		String[] pokemoni = {"Squirtle1.png", "Lick1.gif", };
-		String[] type = {"Sqrt.png"};
+		Pokedex.setSize(72, 73);
+		Pokedex.setLocation(1008, 383);
+		Pokedex.setOpaque(false);
+		Pokedex.setContentAreaFilled(false);
+		Pokedex.setBorderPainted(false);
+		
+		String[] pokemoni = {"Squirtle1.gif", "Lick1.gif", };
+		String[] type = {"Sqrt.png", "Lck.png", };
+		String[] info = {"Pēc piedzimšanas mugura uzbriest un sacietē čaulā. Tā izsmidzina no mutes spēcīgu putu.",
+				"Ja šī Pokemona lipīgā siekala uzlīdīs tev virsū un tu to nenotīrīsi, iegriezīsies intensīva nieze. Nieze arī neaizies.",
+				};
+		
 		Pokedex.addActionListener(e -> {
 			panel.removeAll();
 			
@@ -70,6 +79,8 @@ public class pokemon {
 			nak.setSize(38, 30);
 			nak.setLocation(1038, 257);
 			nak.setOpaque(false);
+			nak.setContentAreaFilled(false);
+			nak.setBorderPainted(false);
 			main.add(nak);
 			
 			int[] skaits = {0};
@@ -77,28 +88,50 @@ public class pokemon {
 			pirmais.setSize(260, 167);
 			Pokemon.add(pirmais);
 			
+			JTextArea pirmaisa = new JTextArea(info[skaits[0]]);
+			pirmaisa.setLineWrap(true);
+			pirmaisa.setWrapStyleWord(true);
+			pirmaisa.setOpaque(false);
+			pirmaisa.setSize(700, 200);
+			panel.add(pirmaisa);
+			
+			JLabel pirmaisb = pokedex(pokemoni[skaits[0]]);
+			panel.add(pirmaisb);
+			
 			nak.addActionListener(ev -> {
 				Pokemon.removeAll();
 				Pokemon.revalidate();
 				Pokemon.repaint();
 				panel.removeAll();
-				
 				skaits[0]++;
 				if (skaits[0]>pokemoni.length-1) {
 					skaits[0]=0;
 				}
+				JTextArea apraksts = new JTextArea(info[skaits[0]]);
+				apraksts.setLineWrap(true);
+				apraksts.setWrapStyleWord(true);
+				apraksts.setOpaque(false);
+				apraksts.setSize(700, 200);
+				panel.add(apraksts);
 				
-				JLabel bildit = pokedex(pokemoni[skaits[0]]);
-				bildit.setSize(260, 167);
-				Pokemon.add(bildit);
+				JLabel bildite = pokedex(pokemoni[skaits[0]]);
+				panel.add(bildite);
+				
+				JLabel tips = pokedex(type[skaits[0]]);
+				tips.setSize(260, 167);
+				Pokemon.add(tips);
 				panel.revalidate();
 				panel.repaint();
 				
 			});
 			JButton iepr = new JButton();
-			iepr.setSize(100, 50);
-			iepr.setLocation(300, 100);
+			iepr.setSize(38, 30);
+			iepr.setLocation(998, 257);
+			iepr.setOpaque(false);
+			iepr.setContentAreaFilled(false);
+			iepr.setBorderPainted(false);
 			main.add(iepr);
+			
 			iepr.addActionListener(ev -> {
 				Pokemon.removeAll();
 				Pokemon.revalidate();
@@ -110,12 +143,21 @@ public class pokemon {
 					skaits[0]=pokemoni.length-1;
 				}
 				
-				JLabel bildit = pokedex(pokemoni[skaits[0]]);
-				bildit.setSize(260, 167);
-				Pokemon.add(bildit);
+				JTextArea apraksts = new JTextArea(info[skaits[0]]);
+				apraksts.setLineWrap(true);
+				apraksts.setWrapStyleWord(true);
+				apraksts.setOpaque(false);
+				apraksts.setSize(700, 200);
+				panel.add(apraksts);
+				
+				JLabel bildite = pokedex(pokemoni[skaits[0]]);
+				panel.add(bildite);
+				
+				JLabel tips = pokedex(type[skaits[0]]);
+				tips.setSize(260, 167);
+				Pokemon.add(tips);
 				panel.revalidate();
 				panel.repaint();
-				
 			});
 			
 			JLabel bildit = pokedex("Bulbasaur");
