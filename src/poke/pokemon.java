@@ -8,15 +8,26 @@ import javax.swing.JPanel;
 import javax.swing.WindowConstants;
 
 public class pokemon {
-	
 	//main panel size 751x565
-	//main panel location 32x109
+		//main panel location 32x109
+	
+	static JLabel pokedex(String txt) {
+		ImageIcon poke = new ImageIcon("bildes/"+txt);
+		JLabel bilde= new JLabel(poke);
+		return bilde;
+	}
 	
 	public static void main(String[] args) {
 		//main frame
 		JFrame main = new JFrame();
 		main.setLocation(150, 50);
 		main.setSize(1244, 700);
+		main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
+		ImageIcon icon = new ImageIcon("bildes/pokeframe.png");
+		JLabel background = new JLabel(icon);
+		main.setContentPane(background);
+		main.setUndecorated(true);
 		
 		//main panel
 		JPanel panel = new JPanel();
@@ -30,49 +41,118 @@ public class pokemon {
 		Sgif.setSize(751, 560);
 		panel.add(Sgif);
 		
-		
-		
+		//pokemon type panel
 		JPanel Pokemon = new JPanel();
 		Pokemon.setSize(260, 165);
 		Pokemon.setLocation(915, 90);
-	
-		ImageIcon bulb = new ImageIcon("bildes/Bulbasaur.png");
-		JLabel Bulbasaur = new JLabel(bulb);
-		Bulbasaur.setSize(260, 167);
-		Pokemon.add(Bulbasaur);
 		Pokemon.setOpaque(false);
 		
 		
-		JPanel menu = new JPanel();
-		menu.setSize(332, 298);
-		menu.setLocation(879, 371);
-		menu.setOpaque(false);
-		
-		
-		
-		
-		
-		ImageIcon icon = new ImageIcon("bildes/pokeframe.png");
-		JLabel background = new JLabel(icon);
-		main.setContentPane(background);
-		main.setUndecorated(true);
-		
+		//stop button
 		JButton Stop = new JButton();
-		Stop.setSize(1000, 1000);
-		main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-		main.add(Stop);
-		Stop.setLocation(10, 10);
+		Stop.setSize(84, 60);
+		Stop.setLocation(58, 12);
 		Stop.setOpaque(false);
 		Stop.setContentAreaFilled(false);
 		Stop.setBorderPainted(false);
 		Stop.addActionListener(e -> System.exit(0));
 		
+		//pokedex button
+		JButton Pokedex = new JButton();
+		Pokedex.setSize(84, 60);
+		Pokedex.setLocation(200, 12);
+		String[] pokemoni = {"Squirtle1.png", "Lick1.gif", };
+		String[] type = {"Sqrt.png"};
+		Pokedex.addActionListener(e -> {
+			panel.removeAll();
+			
+			JButton nak = new JButton();
+			nak.setSize(38, 30);
+			nak.setLocation(1038, 257);
+			nak.setOpaque(false);
+			main.add(nak);
+			
+			int[] skaits = {0};
+			JLabel pirmais = pokedex(type[skaits[0]]);
+			pirmais.setSize(260, 167);
+			Pokemon.add(pirmais);
+			
+			nak.addActionListener(ev -> {
+				Pokemon.removeAll();
+				Pokemon.revalidate();
+				Pokemon.repaint();
+				panel.removeAll();
+				
+				skaits[0]++;
+				if (skaits[0]>pokemoni.length-1) {
+					skaits[0]=0;
+				}
+				
+				JLabel bildit = pokedex(pokemoni[skaits[0]]);
+				bildit.setSize(260, 167);
+				Pokemon.add(bildit);
+				panel.revalidate();
+				panel.repaint();
+				
+			});
+			JButton iepr = new JButton();
+			iepr.setSize(100, 50);
+			iepr.setLocation(300, 100);
+			main.add(iepr);
+			iepr.addActionListener(ev -> {
+				Pokemon.removeAll();
+				Pokemon.revalidate();
+				Pokemon.repaint();
+				panel.removeAll();
+				
+				skaits[0]--;
+				if (skaits[0]<0) {
+					skaits[0]=pokemoni.length-1;
+				}
+				
+				JLabel bildit = pokedex(pokemoni[skaits[0]]);
+				bildit.setSize(260, 167);
+				Pokemon.add(bildit);
+				panel.revalidate();
+				panel.repaint();
+				
+			});
+			
+			JLabel bildit = pokedex("Bulbasaur");
+			bildit.setSize(260, 167);
+			Pokemon.add(bildit);
+			panel.revalidate();
+			panel.repaint();
+			
+		});
+		//home button
+		JButton Home = new JButton();
+		Home.setSize(84, 60);
+		Home.setLocation(342, 12);
+		Home.addActionListener(e -> {
+			
+			panel.removeAll();
+			panel.add(Sgif);
+			panel.revalidate();
+			panel.repaint();
+			Pokemon.removeAll();
+			Pokemon.revalidate();
+			Pokemon.repaint();
+	
+		});
 		
+		
+		
+		
+		
+		
+		
+		
+		main.add(Stop);
 		main.add(panel);
-		main.add(menu);
 		main.add(Pokemon);
-		
-		
+		main.add(Pokedex);
+		main.add(Home);
 		
 		main.setVisible(true);
 		
