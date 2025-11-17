@@ -1,25 +1,95 @@
 package poke;
 
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.Timer;
 import javax.swing.WindowConstants;
 
-public class pokemon {
+public class pokemon extends JPanel implements ActionListener, KeyListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8895138277472371392L;
+	
 	//main panel size 751x565
 		//main panel location 32x109
+	Timer tm = new Timer(5, this);
+	int x = 0, y = 0, velX = 0, velY = 0;
+	public pokemon() {
+		tm.start();
+		addKeyListener(this);
+		setFocusable(true);
+		setFocusTraversalKeysEnabled(false);
+		
+	}
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		g.setColor(Color.RED);
+		g.fillRect(x, y, 90, 50);
+	}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		x += velX;
+		y += velY;
+		repaint();
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		int c = e.getKeyCode();
+		if (c == KeyEvent.VK_W) {
+			velY = -5;
+		}
+		if (c == KeyEvent.VK_S) {
+			velY = 5;
+		}
+		if (c == KeyEvent.VK_A) {
+			velX = -5;
+		}
+		if (c == KeyEvent.VK_D) {
+			velX = 5;
+		}
+		
+	}
+	public void keyTyped(KeyEvent e) {}
+	public void keyReleased(KeyEvent e) {
+		int c = e.getKeyCode();
+		if (c == KeyEvent.VK_W) {
+			velY = 0;
+		}
+		if (c == KeyEvent.VK_S) {
+			velY = 0;
+		}
+		if (c == KeyEvent.VK_A) {
+			velX = 0;
+		}
+		if (c == KeyEvent.VK_D) {
+			velX = 0;
+		}
+	}
 	
 	static JLabel pokedex(String txt) {
 		ImageIcon poke = new ImageIcon("bildes/"+txt);
 		JLabel bilde= new JLabel(poke);
 		return bilde;
 	}
+	//make me a panel that u can move around with keyboard WASD 
 	
 	public static void main(String[] args) {
-		//main frame
+		//main frame size 1244x700
 		JFrame main = new JFrame();
 		main.setLocation(150, 50);
 		main.setSize(1244, 700);
@@ -182,11 +252,6 @@ public class pokemon {
 			Pokemon.repaint();
 	
 		});
-		
-		
-		
-		
-		
 		
 		
 		
