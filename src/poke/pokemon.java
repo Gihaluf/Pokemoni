@@ -22,11 +22,11 @@ public class pokemon {
 	}
 	
 	public static void main(String[] args) {
-		//main frame size 1244x700
 		JFrame main = new JFrame();
 		main.setLocation(150, 50);
 		main.setSize(1244, 700);
 		main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
 		
 		ImageIcon icon = new ImageIcon("bildes/pokeframe.png");
 		JLabel background = new JLabel(icon);
@@ -45,7 +45,7 @@ public class pokemon {
 		Sgif.setSize(751, 560);
 		panel.add(Sgif);
 		
-		//pokemon type panel
+		//pokemon type panelis
 		JPanel Pokemon = new JPanel();
 		Pokemon.setSize(260, 165);
 		Pokemon.setLocation(915, 90);
@@ -61,6 +61,11 @@ public class pokemon {
 		Stop.setBorderPainted(false);
 		Stop.addActionListener(e -> System.exit(0));
 		
+		//home button
+			JButton Home = new JButton();
+			Home.setSize(72, 73);
+			Home.setLocation(907, 500);
+		
 		//pokedex button
 		JButton Pokedex = new JButton();
 		Pokedex.setSize(72, 73);
@@ -74,6 +79,101 @@ public class pokemon {
 		String[] info = {"Pēc piedzimšanas mugura uzbriest un sacietē čaulā. Tā izsmidzina no mutes spēcīgu putu.",
 				"Ja šī Pokemona lipīgā siekala uzlīdīs tev virsū un tu to nenotīrīsi, iegriezīsies intensīva nieze. Nieze arī neaizies.",
 				};
+		
+		
+		//staigat poga
+		JButton stiagat = new JButton();
+		stiagat.setSize(72, 73);
+		stiagat.setLocation(907, 384);
+		
+		
+		//pokebumbu skaits
+		int []PBsk= {0};
+		int []MBsk= {0};
+		int []UBsk= {0};
+		JLabel PokeballSk = new JLabel();
+			PokeballSk.setText(String.valueOf(PBsk[0]));
+			PokeballSk.setSize(40, 20);
+			PokeballSk.setLocation(337, 63);
+		JLabel MediumballSk = new JLabel();
+			MediumballSk.setText(String.valueOf(MBsk[0]));
+			MediumballSk.setSize(40, 20);
+			MediumballSk.setLocation(503, 63);
+		JLabel UltraballSk = new JLabel();
+			UltraballSk.setText(String.valueOf(UBsk[0]));
+			UltraballSk.setSize(40, 20);
+			UltraballSk.setLocation(667, 63);
+		
+		
+		
+		
+		//shop button
+		JButton Shop = new JButton();
+		Shop.setSize(72, 73);
+		Shop.setLocation(1108, 384);
+		
+		//buy buttons
+		JButton buyPB = new JButton();
+		buyPB.setSize(125, 64);
+		buyPB.setLocation(39, 13);
+		
+		buyPB.setOpaque(false);
+		buyPB.setContentAreaFilled(false);
+		buyPB.setBorderPainted(false);
+		
+		buyPB.addActionListener(ev -> {
+			PBsk[0]++;
+			PokeballSk.setText(String.valueOf(PBsk[0]));
+		});
+		JButton buyMB = new JButton();
+		buyMB.setSize(125, 64);
+		buyMB.setLocation(207, 13);
+		
+		buyMB.setOpaque(false);
+		buyMB.setContentAreaFilled(false);
+		buyMB.setBorderPainted(false);
+		
+		buyMB.addActionListener(ev -> {
+			MBsk[0]++;
+			MediumballSk.setText(String.valueOf(MBsk[0]));
+		});
+		JButton buyUB = new JButton();
+		buyUB.setSize(125, 64);
+		buyUB.setLocation(370, 13);
+		
+		buyUB.setOpaque(false);
+		buyUB.setContentAreaFilled(false);
+		buyUB.setBorderPainted(false);
+		
+		buyUB.addActionListener(ev -> {
+			UBsk[0]++;
+			UltraballSk.setText(String.valueOf(UBsk[0]));
+		});
+			
+		main.add(PokeballSk);
+		main.add(MediumballSk);
+		main.add(UltraballSk);
+		main.add(Shop);
+		main.add(stiagat);
+		main.add(Stop);
+		main.add(panel);
+		main.add(Pokemon);
+		main.add(Pokedex);
+		main.add(Home);
+		
+		
+		//action listeners
+		Home.addActionListener(e -> {
+			
+			panel.removeAll();
+			panel.add(Sgif);
+			panel.revalidate();
+			panel.repaint();
+			Pokemon.removeAll();
+			Pokemon.revalidate();
+			Pokemon.repaint();
+	
+		});
 		
 		Pokedex.addActionListener(e -> {
 			panel.removeAll();
@@ -169,27 +269,10 @@ public class pokemon {
 			panel.revalidate();
 			panel.repaint();
 			
-		});
-		//home button
-		JButton Home = new JButton();
-		Home.setSize(84, 60);
-		Home.setLocation(342, 12);
-		Home.addActionListener(e -> {
 			
-			panel.removeAll();
-			panel.add(Sgif);
-			panel.revalidate();
-			panel.repaint();
-			Pokemon.removeAll();
-			Pokemon.revalidate();
-			Pokemon.repaint();
-	
+			
 		});
 		
-		
-		JButton stiagat = new JButton();
-		stiagat.setSize(84, 60);
-		stiagat.setLocation(200, 12);
 		stiagat.addActionListener(e -> {
 			panel.removeAll();
 			panel.revalidate();
@@ -203,26 +286,31 @@ public class pokemon {
 			
 			kust.setResizable(false);
 			kust.add(gamePanel);
-			//main frame size 1244x700, location 150,50
-			//main panel location 32,109 size 751x565
 			kust.pack();
-		
-			
 		
 			kust.setVisible(true);
 			
 			gamePanel.startGameThread();
 		});
 		
-		
-		
-		main.add(stiagat);
-		main.add(Stop);
-		main.add(panel);
-		main.add(Pokemon);
-		main.add(Pokedex);
-		main.add(Home);
-		
+		Shop.addActionListener(e -> {
+			panel.removeAll();
+			panel.revalidate();
+			panel.repaint();
+			
+			ImageIcon s = new ImageIcon("bildes/shop.png");
+			JLabel shop = new JLabel(s);
+			shop.setSize(751, 560);
+			
+			shop.add(buyPB);
+			shop.add(buyMB);
+			shop.add(buyUB);
+			shop.revalidate();
+			shop.repaint();
+			
+			panel.add(shop);
+			
+		});
 		main.setVisible(true);
 		
 		
