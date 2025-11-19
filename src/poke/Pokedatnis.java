@@ -10,7 +10,7 @@ import javax.swing.JTextArea;
 import javax.swing.WindowConstants;
 
 import main.GamePanel;
-
+/*	NAV PIEVINOTS CATCH OPCIJA, VAJAG SALABOT POKEDEX, FIGHT, STORAGE(ARRAYLIST UN ATTELI)*/
 public class Pokedatnis {
 	public static GamePanel  gamePanel = new GamePanel();
 	public static JFrame kust = new JFrame();
@@ -210,6 +210,8 @@ public class Pokedatnis {
 			
 		});
 		
+		
+		//VAJAG PAPILDINĀT un uzlabot:( 
 		Pokedex.addActionListener(e -> {
 			panel.removeAll();
 			panel.revalidate();
