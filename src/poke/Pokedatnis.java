@@ -10,10 +10,10 @@ import javax.swing.WindowConstants;
 
 import main.GamePanel;
 
-public class pokemon {
+public class Pokedatnis {
 	public static GamePanel  gamePanel = new GamePanel();
 	public static JFrame kust = new JFrame();
-	
+	static boolean reize = true;
 	static JLabel pokedex(String txt) {
 		ImageIcon poke = new ImageIcon("bildes/"+txt);
 		JLabel bilde= new JLabel(poke);
@@ -27,7 +27,7 @@ public class pokemon {
 		main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 		
 		
-		ImageIcon icon = new ImageIcon("bildes/pokeframe.png");
+		ImageIcon icon = new ImageIcon("bildes/PokeFram.png");
 		JLabel background = new JLabel(icon);
 		main.setContentPane(background);
 		main.setUndecorated(true);
@@ -64,15 +64,15 @@ public class pokemon {
 		
 		
 		JButton Home = new JButton();
-		Home.setSize(72, 73);
-		Home.setLocation(907, 500);
+		Home.setSize(72, 104);
+		Home.setLocation(907, 530);
 		Home.setOpaque(false);
 		Home.setContentAreaFilled(false);
 		Home.setBorderPainted(false);
 		main.add(Home);
 		
 		JButton Pokedex = new JButton();
-		Pokedex.setSize(72, 73);
+		Pokedex.setSize(72, 110);
 		Pokedex.setLocation(1008, 383);
 		Pokedex.setOpaque(false);
 		Pokedex.setContentAreaFilled(false);
@@ -87,8 +87,8 @@ public class pokemon {
 		
 		
 		JButton stiagat = new JButton();
-		stiagat.setSize(72, 73);
-		stiagat.setLocation(907, 384);
+		stiagat.setSize(72, 110);
+		stiagat.setLocation(1008, 530);
 		stiagat.setOpaque(false);
 		stiagat.setContentAreaFilled(false);
 		stiagat.setBorderPainted(false);
@@ -116,8 +116,8 @@ public class pokemon {
 			
 		
 		JButton Shop = new JButton();
-		Shop.setSize(72, 73);
-		Shop.setLocation(1108, 384);
+		Shop.setSize(72, 110);
+		Shop.setLocation(907, 384);
 		Shop.setOpaque(false);
 		Shop.setContentAreaFilled(false);
 		Shop.setBorderPainted(false);
@@ -162,24 +162,26 @@ public class pokemon {
 		
 		
 		
-		//Pokemon storage button
+		
 		JButton storage = new JButton();
-		storage.setSize(72, 73);
-		storage.setLocation(1108, 500);
+		storage.setSize(76, 110);
+		storage.setLocation(1118, 384);
+		storage.setOpaque(false);
+		storage.setContentAreaFilled(false);
+		storage.setBorderPainted(false);
 		main.add(storage);
 		
 		
-		JButton fight = new JButton();
+		/*JButton fight = new JButton();
 		fight.setSize(72, 73);
 		fight.setLocation(1008, 600);
-		main.add(fight);
+		main.add(fight);*/
 		
 		
 		main.setVisible(true);
 		
 		
 		//action listeners
-		
 		Home.addActionListener(e -> {
 			
 			panel.removeAll();
@@ -192,6 +194,14 @@ public class pokemon {
 	
 		});
 		
+		storage.addActionListener(e ->{
+			panel.removeAll();
+			panel.revalidate();
+			panel.repaint();
+			
+			
+			
+		});
 		Pokedex.addActionListener(e -> {
 			panel.removeAll();
 			
@@ -297,6 +307,7 @@ public class pokemon {
 			panel.repaint();
 			
 			
+			if(reize) {
 			kust.setLocation(200, 200);
 			kust.setUndecorated(false);
 			kust.setSize(751, 565);
@@ -307,7 +318,9 @@ public class pokemon {
 			kust.setVisible(true);
 		
 			gamePanel.startGameThread();
-			
+			reize = false;
+			}
+			kust.setVisible(true);
 		});
 		
 		

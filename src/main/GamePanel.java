@@ -10,7 +10,7 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import entity.Player;
-import poke.pokemon;
+import poke.Pokedatnis;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable  {
@@ -117,23 +117,20 @@ public class GamePanel extends JPanel implements Runnable  {
 
 	public static void triggerRandomPanel(){
 		
-		pokemon.kust.setVisible(false);
-		pokemon.kust.dispose();
+		Pokedatnis.kust.setVisible(false);
+		Pokedatnis.kust.dispose();
 		
 		JDialog logs = new JDialog();
 	    JPanel kert = new JPanel(new BorderLayout());
 	    
 	    logs.add(kert);
 	    
-	    logs.setSize(751, 565); // Set preferred size
+	    logs.setSize(751, 565);
 	    logs.setLocation(32, 109);
 	    
-	    // 5. Make the dialog visible
+	    
 	    logs.setVisible(true); 
 	    
-	    // After the dialog is displayed, you may want to pause the game
-	    // while the panel is visible to prevent the player from moving.
-	    // Example: gameState = GAME_STATE_PAUSED;
 	}
 }
 

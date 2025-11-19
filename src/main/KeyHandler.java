@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class KeyHandler implements KeyListener {
 	private Random random = new Random();
-	private final int POPUP_CHANCE = 20;
+	private final int POPUP_CHANCE = 40;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	
 	@Override
@@ -54,7 +54,9 @@ public class KeyHandler implements KeyListener {
 				rightPressed = false;
 	        }
 		}
-		
+		if(code == KeyEvent.VK_I) {
+			GamePanel.triggerRandomPanel();
+		}
 	}
 
 	@Override
