@@ -21,7 +21,7 @@ public class TileManager {
 		
 		this.gp = gp;
 		
-		tile = new Tile[10];
+		tile = new Tile[12];
 		mapTileNum = new int [gp.maxWorldCol][gp.maxWorldRow];
 		
 		getTileImage();
@@ -47,11 +47,11 @@ public class TileManager {
 				tile[3].collision = true;
 				
 				tile[4] = new Tile();
-				tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tile/tree_big.png"));
-				tile[4].collision = true;
+				tile[4].image = ImageIO.read(getClass().getResourceAsStream("/tile/zal.png"));
 				
 				tile[5] = new Tile();
-				tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tile/sand.png"));
+				tile[5].image = ImageIO.read(getClass().getResourceAsStream("/tile/rock.png"));
+				tile[5].collision = true;
 				
 				tile[6] = new Tile();
 				tile[6].image = ImageIO.read(getClass().getResourceAsStream("/tile/water.png"));
@@ -68,7 +68,13 @@ public class TileManager {
 				tile[9].image = ImageIO.read(getClass().getResourceAsStream("/tile/rof1.png"));
 				tile[9].collision = true;
 				
+				tile[10] = new Tile();
+				tile[10].image = ImageIO.read(getClass().getResourceAsStream("/tile/dur.png"));
+				tile[10].collision = true;
 				
+				tile[11] = new Tile();
+				tile[11].image = ImageIO.read(getClass().getResourceAsStream("/tile/vis.png"));
+				tile[11].collision = true;
 			}catch(IOException e) {
 				e.printStackTrace();
 			}
@@ -84,16 +90,16 @@ public class TileManager {
 				
 				int col = 0;
 				int row = 0;
-				int tileNum = 0;
+				
 				do{
 					
 					String line = br.readLine();
 					do{
 						
 						String numbers[] = line.split(" ");
-						System.out.print(numbers[tileNum]+ " ");
+						
 						int num = Integer.parseInt(numbers[col]);
-						tileNum++;
+						
 						mapTileNum[col][row] = num;
 						
 						col++;
@@ -103,14 +109,12 @@ public class TileManager {
 					if (col == gp.maxWorldCol) {
 						col = 0;
 						row++;
-						tileNum = 0;
+						
 					}
-					System.out.println();
-					System.out.println("NIG"+col+" "+gp.maxWorldCol);
-					System.out.println("NIG"+row+" "+gp.maxWorldRow);
+					
 				}while(col != gp.maxWorldCol && row != gp.maxWorldRow);
 				br.close();
-				System.out.println("Map loaded!");
+				
 			}catch(Exception e) {
 				
 			}
@@ -148,5 +152,6 @@ public class TileManager {
 				}
 			}
 		}
+		
 		
 }

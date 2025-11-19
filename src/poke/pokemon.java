@@ -1,8 +1,5 @@
 package poke;
 
-
-
-
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -14,6 +11,8 @@ import javax.swing.WindowConstants;
 import main.GamePanel;
 
 public class pokemon {
+	public static GamePanel  gamePanel = new GamePanel();
+	public static JFrame kust = new JFrame();
 	
 	static JLabel pokedex(String txt) {
 		ImageIcon poke = new ImageIcon("bildes/"+txt);
@@ -33,26 +32,27 @@ public class pokemon {
 		main.setContentPane(background);
 		main.setUndecorated(true);
 		
-		//main panel
+		
 		JPanel panel = new JPanel();
 		panel.setSize(751, 565);
 		panel.setLocation(32, 109);
 		panel.setOpaque(false);
+		main.add(panel);
 		
-		//startup frame
+		
 		ImageIcon gif = new ImageIcon("bildes/Startup.gif");
 		JLabel Sgif = new JLabel(gif);
 		Sgif.setSize(751, 560);
 		panel.add(Sgif);
 		
-		//pokemon type panelis
+		
 		JPanel Pokemon = new JPanel();
 		Pokemon.setSize(260, 165);
 		Pokemon.setLocation(915, 90);
 		Pokemon.setOpaque(false);
+		main.add(Pokemon);
 		
 		
-		//stop button
 		JButton Stop = new JButton();
 		Stop.setSize(84, 60);
 		Stop.setLocation(58, 12);
@@ -60,20 +60,24 @@ public class pokemon {
 		Stop.setContentAreaFilled(false);
 		Stop.setBorderPainted(false);
 		Stop.addActionListener(e -> System.exit(0));
+		main.add(Stop);
 		
-		//home button
-			JButton Home = new JButton();
-			Home.setSize(72, 73);
-			Home.setLocation(907, 500);
 		
-		//pokedex button
+		JButton Home = new JButton();
+		Home.setSize(72, 73);
+		Home.setLocation(907, 500);
+		Home.setOpaque(false);
+		Home.setContentAreaFilled(false);
+		Home.setBorderPainted(false);
+		main.add(Home);
+		
 		JButton Pokedex = new JButton();
 		Pokedex.setSize(72, 73);
 		Pokedex.setLocation(1008, 383);
 		Pokedex.setOpaque(false);
 		Pokedex.setContentAreaFilled(false);
 		Pokedex.setBorderPainted(false);
-		
+		main.add(Pokedex);
 		String[] pokemoni = {"Squirtle1.gif", "Lick1.gif", };
 		String[] type = {"Sqrt.png", "Lck.png", };
 		String[] info = {"Pēc piedzimšanas mugura uzbriest un sacietē čaulā. Tā izsmidzina no mutes spēcīgu putu.",
@@ -81,16 +85,19 @@ public class pokemon {
 				};
 		
 		
-		//staigat poga
+		
 		JButton stiagat = new JButton();
 		stiagat.setSize(72, 73);
 		stiagat.setLocation(907, 384);
+		stiagat.setOpaque(false);
+		stiagat.setContentAreaFilled(false);
+		stiagat.setBorderPainted(false);
+		main.add(stiagat);
 		
 		
-		//pokebumbu skaits
-		int []PBsk= {0};
-		int []MBsk= {0};
-		int []UBsk= {0};
+		int []PBsk= {5};
+		int []MBsk= {2};
+		int []UBsk= {1};
 		JLabel PokeballSk = new JLabel();
 			PokeballSk.setText(String.valueOf(PBsk[0]));
 			PokeballSk.setSize(40, 20);
@@ -103,16 +110,19 @@ public class pokemon {
 			UltraballSk.setText(String.valueOf(UBsk[0]));
 			UltraballSk.setSize(40, 20);
 			UltraballSk.setLocation(667, 63);
+		main.add(PokeballSk);
+		main.add(MediumballSk);
+		main.add(UltraballSk);
+			
 		
-		
-		
-		
-		//shop button
 		JButton Shop = new JButton();
 		Shop.setSize(72, 73);
 		Shop.setLocation(1108, 384);
+		Shop.setOpaque(false);
+		Shop.setContentAreaFilled(false);
+		Shop.setBorderPainted(false);
+		main.add(Shop);
 		
-		//buy buttons
 		JButton buyPB = new JButton();
 		buyPB.setSize(125, 64);
 		buyPB.setLocation(39, 13);
@@ -149,20 +159,27 @@ public class pokemon {
 			UBsk[0]++;
 			UltraballSk.setText(String.valueOf(UBsk[0]));
 		});
-			
-		main.add(PokeballSk);
-		main.add(MediumballSk);
-		main.add(UltraballSk);
-		main.add(Shop);
-		main.add(stiagat);
-		main.add(Stop);
-		main.add(panel);
-		main.add(Pokemon);
-		main.add(Pokedex);
-		main.add(Home);
+		
+		
+		
+		//Pokemon storage button
+		JButton storage = new JButton();
+		storage.setSize(72, 73);
+		storage.setLocation(1108, 500);
+		main.add(storage);
+		
+		
+		JButton fight = new JButton();
+		fight.setSize(72, 73);
+		fight.setLocation(1008, 600);
+		main.add(fight);
+		
+		
+		main.setVisible(true);
 		
 		
 		//action listeners
+		
 		Home.addActionListener(e -> {
 			
 			panel.removeAll();
@@ -273,13 +290,13 @@ public class pokemon {
 			
 		});
 		
+		
 		stiagat.addActionListener(e -> {
 			panel.removeAll();
 			panel.revalidate();
 			panel.repaint();
 			
-			GamePanel  gamePanel = new GamePanel();
-			JFrame kust = new JFrame();
+			
 			kust.setLocation(200, 200);
 			kust.setUndecorated(false);
 			kust.setSize(751, 565);
@@ -287,11 +304,12 @@ public class pokemon {
 			kust.setResizable(false);
 			kust.add(gamePanel);
 			kust.pack();
-		
 			kust.setVisible(true);
-			
+		
 			gamePanel.startGameThread();
+			
 		});
+		
 		
 		Shop.addActionListener(e -> {
 			panel.removeAll();
@@ -311,9 +329,6 @@ public class pokemon {
 			panel.add(shop);
 			
 		});
-		main.setVisible(true);
-		
 		
 	}
-	
 }

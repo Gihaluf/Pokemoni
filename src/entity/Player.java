@@ -12,6 +12,7 @@ import main.KeyHandler;
 
 public class Player extends Entity {
 
+	
 	GamePanel gp;
 	KeyHandler keyH;
 	
@@ -35,6 +36,7 @@ public class Player extends Entity {
 		setDefaultValues();
 		getPlayerImage();
 	}
+	
 	public void setDefaultValues() {
 		
 		worldX = gp.tileSize * 2;
@@ -42,6 +44,7 @@ public class Player extends Entity {
 		speed = 3;
 		direction = "down";
 	}
+	
 	public void getPlayerImage() {
 		
 		try {
@@ -61,7 +64,7 @@ public class Player extends Entity {
 		}
 	}
 	
-	public void update() {
+	public void update(){
 		
 		if(keyH.upPressed == true || keyH.downPressed == true || 
 				keyH.leftPressed == true || keyH.rightPressed == true ) {
@@ -76,10 +79,10 @@ public class Player extends Entity {
 			else if (keyH.leftPressed == true) {
 				direction = "left";
 				
+				
 			}
 			else if (keyH.rightPressed == true) {
 				direction = "right";
-				
 			}
 			
 			//CHECK TILE COLLISION
@@ -108,6 +111,7 @@ public class Player extends Entity {
 				
 			}
 			
+			
 			spriteCounter++;
 			if(spriteCounter > 12) {
 				if(spriteNum == 1) {
@@ -121,10 +125,8 @@ public class Player extends Entity {
 		}
 		
 	}
+
 	public void draw(Graphics g2) {
-		
-//		g2.setColor(Color.white);
-//		g2.fillRect(x, y, gp.tileSize, gp.tileSize);
 		
 		BufferedImage image = null;
 		
@@ -165,4 +167,5 @@ public class Player extends Entity {
 		g2.drawImage(image, screenX, screenY, gp.tileSize, gp.tileSize, null);
 		
 	}
+	
 }

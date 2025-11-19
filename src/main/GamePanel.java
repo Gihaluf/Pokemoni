@@ -1,21 +1,24 @@
 package main;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 
 import entity.Player;
+import poke.pokemon;
 import tile.TileManager;
 
-public class GamePanel extends JPanel implements Runnable {
+public class GamePanel extends JPanel implements Runnable  {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1902431952989600525L;
+	private static final long serialVersionUID = -7709054431452894800L;
 	//SCREEN SETTING
 	final int originalTileSize=2; //16x16 tile
 	final int scale = 16 ;
@@ -27,8 +30,8 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int screenHeight = tileSize * maxScreenRow; //576pix
 	
 	//WORLD SETTINGS
-	public final int maxWorldCol = 15;
-	public final int maxWorldRow = 15;
+	public final int maxWorldCol = 35;
+	public final int maxWorldRow = 22;
 	public final int worldWidth = tileSize * maxWorldCol;
 	public final int worldHeight = tileSize * maxWorldRow;
 	
@@ -37,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	TileManager tileM = new TileManager(this);
 	KeyHandler keyH = new KeyHandler();
-	Thread gameThread;
+	static Thread gameThread;
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public Player player = new Player(this,keyH);	
 	
@@ -66,6 +69,7 @@ public class GamePanel extends JPanel implements Runnable {
 		while(gameThread != null) {
 			
 			update();
+	
 			 
 			
 
@@ -92,7 +96,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 	}
 	
-	public void update() {
+	public void update(){
 		
 		player.update();
 		
@@ -110,7 +114,27 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		g2.dispose();
 	}
-	
+
+	public static void triggerRandomPanel(){
+		
+		pokemon.kust.setVisible(false);
+		pokemon.kust.dispose();
+		
+		JDialog logs = new JDialog();
+	    JPanel kert = new JPanel(new BorderLayout());
+	    
+	    logs.add(kert);
+	    
+	    logs.setSize(751, 565); // Set preferred size
+	    logs.setLocation(32, 109);
+	    
+	    // 5. Make the dialog visible
+	    logs.setVisible(true); 
+	    
+	    // After the dialog is displayed, you may want to pause the game
+	    // while the panel is visible to prevent the player from moving.
+	    // Example: gameState = GAME_STATE_PAUSED;
+	}
 }
 
 
