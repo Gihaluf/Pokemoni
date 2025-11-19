@@ -20,14 +20,14 @@ public class GamePanel extends JPanel implements Runnable  {
 	 */
 	private static final long serialVersionUID = -7709054431452894800L;
 	//SCREEN SETTING
-	final int originalTileSize=2; //16x16 tile
+	final int originalTileSize= 2; //16x16 tile
 	final int scale = 16 ;
 	
 	public final int tileSize = originalTileSize * scale; //48*48
 	public final int maxScreenCol = 20;
 	public final int maxScreenRow = 12;
-	public final int screenWidth = tileSize * maxScreenCol;  //960pix
-	public final int screenHeight = tileSize * maxScreenRow; //576pix
+	public final int screenWidth = 751;  //751pix
+	public final int screenHeight = 565; //565pix
 	
 	//WORLD SETTINGS
 	public final int maxWorldCol = 35;
@@ -122,11 +122,11 @@ public class GamePanel extends JPanel implements Runnable  {
 		
 		JDialog logs = new JDialog();
 	    JPanel kert = new JPanel(new BorderLayout());
-	    
+	    logs.setUndecorated(true);
 	    logs.add(kert);
 	    
 	    logs.setSize(751, 565);
-	    logs.setLocation(32, 109);
+	    logs.setLocation(182, 159);
 	    
 	    
 	    logs.setVisible(true); 

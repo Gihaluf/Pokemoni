@@ -1,5 +1,6 @@
 package poke;
 
+
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -78,10 +79,13 @@ public class Pokedatnis {
 		Pokedex.setContentAreaFilled(false);
 		Pokedex.setBorderPainted(false);
 		main.add(Pokedex);
-		String[] pokemoni = {"Squirtle1.gif", "Lick1.gif", };
-		String[] type = {"Sqrt.png", "Lck.png", };
+		String[] pokemoni = {"Squirtle1.gif", "wartortle21.gif", "Blastoise12.gif", "Lick1.gif", "lickylicky.gif"};
+		String[] type = {"Sqrt.png","Sqrt.png","Sqrt.png", "Lck.png", "Lck.png"};
 		String[] info = {"Pēc piedzimšanas mugura uzbriest un sacietē čaulā. Tā izsmidzina no mutes spēcīgu putu.",
-				"Ja šī Pokemona lipīgā siekala uzlīdīs tev virsū un tu to nenotīrīsi, iegriezīsies intensīva nieze. Nieze arī neaizies.",
+				"Wartortle’s garā, niknā aste ir ilgmūžības simbols, tāpēc šis Pokémon ir diezgan populārs vecāka gadagājuma cilvēku vidū.",
+				"Tas apzināti palielina ķermeņa masu, lai spētu izturēt ūdens strūklu atsitienu, ko tas izšauj."
+				,"Ja šī Pokemona lipīgā siekala uzlīdīs tev virsū un tu to nenotīrīsi, iegriezīsies intensīva nieze. Nieze arī neaizies.",
+				"Lickilicky’s dīvainā mēle var stiepties līdz daudzkārt garākam ķermeņa garumam. Neviens nav izdomājis, kā Likilikijam līdz šim mēle var izstiepties."
 				};
 		
 		
@@ -124,8 +128,8 @@ public class Pokedatnis {
 		main.add(Shop);
 		
 		JButton buyPB = new JButton();
-		buyPB.setSize(125, 64);
-		buyPB.setLocation(39, 13);
+		buyPB.setSize(170, 160);
+		buyPB.setLocation(124,235);
 		
 		buyPB.setOpaque(false);
 		buyPB.setContentAreaFilled(false);
@@ -136,8 +140,8 @@ public class Pokedatnis {
 			PokeballSk.setText(String.valueOf(PBsk[0]));
 		});
 		JButton buyMB = new JButton();
-		buyMB.setSize(125, 64);
-		buyMB.setLocation(207, 13);
+		buyMB.setSize(170, 160);
+		buyMB.setLocation(310,235);
 		
 		buyMB.setOpaque(false);
 		buyMB.setContentAreaFilled(false);
@@ -148,8 +152,8 @@ public class Pokedatnis {
 			MediumballSk.setText(String.valueOf(MBsk[0]));
 		});
 		JButton buyUB = new JButton();
-		buyUB.setSize(125, 64);
-		buyUB.setLocation(370, 13);
+		buyUB.setSize(170, 160);
+		buyUB.setLocation(490, 235);
 		
 		buyUB.setOpaque(false);
 		buyUB.setContentAreaFilled(false);
@@ -191,7 +195,7 @@ public class Pokedatnis {
 			Pokemon.removeAll();
 			Pokemon.revalidate();
 			Pokemon.repaint();
-	
+			
 		});
 		
 		storage.addActionListener(e ->{
@@ -199,15 +203,27 @@ public class Pokedatnis {
 			panel.revalidate();
 			panel.repaint();
 			
-			
+			ImageIcon inv = new ImageIcon("bildes/Inventoyy.png");
+			JLabel INV = new JLabel(inv);
+			INV.setSize(751, 560);
+			panel.add(INV);
 			
 		});
+		
 		Pokedex.addActionListener(e -> {
 			panel.removeAll();
+			panel.revalidate();
+			panel.repaint();
+			
+			//ImageIcon inf = new ImageIcon("bildes/Inf.png");
+			//JLabel INF = new JLabel(inf);
+			//INF.setSize(751, 560);
+			//panel.add(INF);
+			
 			
 			JButton nak = new JButton();
-			nak.setSize(38, 30);
-			nak.setLocation(1038, 257);
+			nak.setSize(50, 30);
+			nak.setLocation(1030, 257);
 			nak.setOpaque(false);
 			nak.setContentAreaFilled(false);
 			nak.setBorderPainted(false);
@@ -223,21 +239,33 @@ public class Pokedatnis {
 			pirmaisa.setWrapStyleWord(true);
 			pirmaisa.setOpaque(false);
 			pirmaisa.setSize(700, 200);
+			pirmaisa.setLocation(12,12);
 			panel.add(pirmaisa);
+			
+			JLabel bildit = pokedex("Bulbasaur");
+			bildit.setSize(260, 167);
+			Pokemon.add(bildit);
+			panel.revalidate();
+			panel.repaint();
+			
 			
 			JLabel pirmaisb = pokedex(pokemoni[skaits[0]]);
 			panel.add(pirmaisb);
+			
+			panel.revalidate();
+			panel.repaint();
 			
 			nak.addActionListener(ev -> {
 				Pokemon.removeAll();
 				Pokemon.revalidate();
 				Pokemon.repaint();
-				panel.removeAll();
+				
 				skaits[0]++;
 				if (skaits[0]>pokemoni.length-1) {
 					skaits[0]=0;
 				}
 				JTextArea apraksts = new JTextArea(info[skaits[0]]);
+				
 				apraksts.setLineWrap(true);
 				apraksts.setWrapStyleWord(true);
 				apraksts.setOpaque(false);
@@ -252,11 +280,10 @@ public class Pokedatnis {
 				Pokemon.add(tips);
 				panel.revalidate();
 				panel.repaint();
-				
 			});
 			JButton iepr = new JButton();
-			iepr.setSize(38, 30);
-			iepr.setLocation(998, 257);
+			iepr.setSize(50, 30);
+			iepr.setLocation(980, 257);
 			iepr.setOpaque(false);
 			iepr.setContentAreaFilled(false);
 			iepr.setBorderPainted(false);
@@ -266,7 +293,7 @@ public class Pokedatnis {
 				Pokemon.removeAll();
 				Pokemon.revalidate();
 				Pokemon.repaint();
-				panel.removeAll();
+				
 				
 				skaits[0]--;
 				if (skaits[0]<0) {
@@ -289,15 +316,6 @@ public class Pokedatnis {
 				panel.revalidate();
 				panel.repaint();
 			});
-			
-			JLabel bildit = pokedex("Bulbasaur");
-			bildit.setSize(260, 167);
-			Pokemon.add(bildit);
-			panel.revalidate();
-			panel.repaint();
-			
-			
-			
 		});
 		
 		
@@ -308,8 +326,8 @@ public class Pokedatnis {
 			
 			
 			if(reize) {
-			kust.setLocation(200, 200);
-			kust.setUndecorated(false);
+			kust.setUndecorated(true);
+			kust.setLocation(182, 159);
 			kust.setSize(751, 565);
 			
 			kust.setResizable(false);
@@ -329,7 +347,7 @@ public class Pokedatnis {
 			panel.revalidate();
 			panel.repaint();
 			
-			ImageIcon s = new ImageIcon("bildes/shop.png");
+			ImageIcon s = new ImageIcon("bildes/pokedihss.png");
 			JLabel shop = new JLabel(s);
 			shop.setSize(751, 560);
 			
