@@ -4,9 +4,11 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Random;
 
+import poke.Pokedatnis;
+
 public class KeyHandler implements KeyListener {
 	private Random random = new Random();
-	private final int POPUP_CHANCE = 40;
+	private final int POPUP_CHANCE = 10;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	
 	@Override
@@ -22,7 +24,7 @@ public class KeyHandler implements KeyListener {
 			upPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				GamePanel.triggerRandomPanel();
+				Pokedatnis.triggerRandomPanel("a");
 				upPressed = false;
 	        }
 		}
@@ -31,7 +33,7 @@ public class KeyHandler implements KeyListener {
 			downPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				GamePanel.triggerRandomPanel();
+				Pokedatnis.triggerRandomPanel("a");
 				downPressed = false;
 
 	        }
@@ -41,7 +43,7 @@ public class KeyHandler implements KeyListener {
 			leftPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				GamePanel.triggerRandomPanel();
+				Pokedatnis.triggerRandomPanel("a");
 				leftPressed = false;
 	        }
 		}
@@ -50,12 +52,12 @@ public class KeyHandler implements KeyListener {
 			rightPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				GamePanel.triggerRandomPanel();
+				Pokedatnis.triggerRandomPanel("a");
 				rightPressed = false;
 	        }
 		}
 		if(code == KeyEvent.VK_I) {
-			GamePanel.triggerRandomPanel();
+			Pokedatnis.triggerRandomPanel("a");
 		}
 	}
 

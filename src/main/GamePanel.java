@@ -1,16 +1,15 @@
 package main;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
-import javax.swing.JDialog;
+
 import javax.swing.JPanel;
 
 import entity.Player;
-import poke.Pokedatnis;
 import tile.TileManager;
 
 public class GamePanel extends JPanel implements Runnable  {
@@ -115,23 +114,6 @@ public class GamePanel extends JPanel implements Runnable  {
 		g2.dispose();
 	}
 
-	public static void triggerRandomPanel(){
-		
-		Pokedatnis.kust.setVisible(false);
-		Pokedatnis.kust.dispose();
-		
-		JDialog logs = new JDialog();
-	    JPanel kert = new JPanel(new BorderLayout());
-	    logs.setUndecorated(true);
-	    logs.add(kert);
-	    
-	    logs.setSize(751, 565);
-	    logs.setLocation(182, 159);
-	    
-	    
-	    logs.setVisible(true); 
-	    
-	}
 }
 
 
