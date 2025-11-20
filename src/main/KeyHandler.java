@@ -24,7 +24,7 @@ public class KeyHandler implements KeyListener {
 			upPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				Pokedatnis.triggerRandomPanel("a");
+				Pokedatnis.triggerRandomPanel("a", null);
 				upPressed = false;
 	        }
 		}
@@ -33,7 +33,7 @@ public class KeyHandler implements KeyListener {
 			downPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				Pokedatnis.triggerRandomPanel("a");
+				Pokedatnis.triggerRandomPanel("a",null);
 				downPressed = false;
 
 	        }
@@ -43,7 +43,7 @@ public class KeyHandler implements KeyListener {
 			leftPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				Pokedatnis.triggerRandomPanel("a");
+				Pokedatnis.triggerRandomPanel("a", null);
 				leftPressed = false;
 	        }
 		}
@@ -52,12 +52,12 @@ public class KeyHandler implements KeyListener {
 			rightPressed = true;
 			int roll = random.nextInt(POPUP_CHANCE);
 			if (roll == 0) { 
-				Pokedatnis.triggerRandomPanel("a");
+				Pokedatnis.triggerRandomPanel("a", null);
 				rightPressed = false;
 	        }
 		}
 		if(code == KeyEvent.VK_I) {
-			Pokedatnis.triggerRandomPanel("a");
+			Pokedatnis.triggerRandomPanel("a", null);
 		}
 	}
 

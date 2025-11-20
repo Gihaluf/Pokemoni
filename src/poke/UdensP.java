@@ -57,7 +57,7 @@ public class UdensP extends Pokemons {
     }
 
 	@Override
-	public void attack(Pokemons opponent) {
+	public void uzbrukt(Pokemons opponent) {
 		
 	}
 }

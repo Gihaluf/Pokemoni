@@ -43,16 +43,16 @@ public abstract class Pokemons {
 
     public void heal(int amount) {
         health += amount;
-        System.out.println(name + " Izarstēts par " + amount + " HP!");
+        
     }
 
     public void evolucija() {
         attackPower += 10;
         speed += 5;
-        System.out.println(name + " ir evolucejis un tagad ir spēcīgāks!");
+        
     }
 
-    public abstract void attack(Pokemons opponent);
+    public abstract void uzbrukt(Pokemons opponent);
 
     public void weakness() {
         System.out.println(name + " has no specific weaknesses.");

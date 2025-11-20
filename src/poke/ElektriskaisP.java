@@ -48,7 +48,7 @@ public class ElektriskaisP extends Pokemons {
     }
 
 	@Override
-	public void attack(Pokemons opponent) {
+	public void uzbrukt(Pokemons opponent) {
 		// TODO Auto-generated method stub
 		
 	}

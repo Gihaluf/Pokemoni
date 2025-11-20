@@ -191,7 +191,7 @@ public class Pokedatnis {
 			UltraballSk.setText(String.valueOf(UBsk[0]));
 		});
 		
-		//UNFINISHED
+		//DONE
 		JButton storage = new JButton();
 		storage.setSize(76, 110);
 		storage.setLocation(1118, 384);
@@ -216,6 +216,9 @@ public class Pokedatnis {
 		});
 		
 		storage.addActionListener(e ->{
+			Pokemon.removeAll();
+			Pokemon.revalidate();
+			Pokemon.repaint();
 			panel.removeAll();
 			panel.revalidate();
 			panel.repaint();
@@ -224,21 +227,11 @@ public class Pokedatnis {
 			JLabel INV = new JLabel(inv);
 			INV.setSize(751, 560);
 	
-			if(poki.size()>=0) {
+			if(poki.size()>0) {
 				String b = "";
 				int reize=0;
 				int col=0;
-				int[][] cord = new int [8][2];
-				for(int x=0; x<cord.length; x++) {
-					for(int y=0; y<cord[x].length; y++) {
-						if(x==0) cord[x][y] = 227+(reize*88);
-						if(x==1) cord[x][y] = 162+(reize*84);
-						System.out.println(cord[x][y]);
-						reize++;
-					}
-				}
-				reize=0;
-				for(int i=1; i<poki.size(); i++) {
+				for(int i=1; i<poki.size()+1; i++) {
 					String nosaukums = ((Pokemons)poki.get(i-1)).getVards();
 					switch(nosaukums) {
 					case "Squirtle":
@@ -247,7 +240,6 @@ public class Pokedatnis {
 					case "Elekid":
 						b="e.png";
 						break;
-						
 					}
 					JLabel pirm = pokedex(b);
 					//88 84
@@ -255,8 +247,9 @@ public class Pokedatnis {
 					
 					pirm.setLocation(227+(col*88),162+(reize*84));
 					col++;
-					if(col==3) col=0;
+					if(col==4) col=0;
 					if(i%4==0) reize++;
+					
 					INV.add(pirm);
 				}
 			}
@@ -267,6 +260,9 @@ public class Pokedatnis {
 		
 		
 		Pokedex.addActionListener(e -> {
+			Pokemon.removeAll();
+			Pokemon.revalidate();
+			Pokemon.repaint();
 			panel.removeAll();
 			panel.revalidate();
 			panel.repaint();
@@ -498,6 +494,9 @@ public class Pokedatnis {
 		
 		
 		stiagat.addActionListener(e -> {
+			Pokemon.removeAll();
+			Pokemon.revalidate();
+			Pokemon.repaint();
 			panel.removeAll();
 			panel.revalidate();
 			panel.repaint();
@@ -521,6 +520,9 @@ public class Pokedatnis {
 		
 		
 		Shop.addActionListener(e -> {
+			Pokemon.removeAll();
+			Pokemon.revalidate();
+			Pokemon.repaint();
 			panel.removeAll();
 			panel.revalidate();
 			panel.repaint();
@@ -540,24 +542,71 @@ public class Pokedatnis {
 		});
 		
 	}
+	static boolean startam = true;
 	public static void start() throws MalformedURLException, 
     UnsupportedAudioFileException, IOException, 
     LineUnavailableException{
-            File f = new File(".//sound//"+"main.wav");
-            AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
-            Clip c = AudioSystem.getClip();
-            c.open(ais);
-            c.start();
+		File f = new File(".//sound//"+"main.wav");
+	    AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
+        Clip c = AudioSystem.getClip();
+		if(startam) {
+	        c.open(ais);
+	        c.start();
+	        startam = false;
+		}else {
+			c.stop();
+			startam = true;
+		}
+	}
+	static boolean fight = true;
+	public static void startf() throws MalformedURLException, 
+    UnsupportedAudioFileException, IOException, 
+    LineUnavailableException{
+		File f = new File(".//sound//"+"fight.wav");
+	    AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
+        Clip c = AudioSystem.getClip();
+		if(startam) {
+	        c.open(ais);
+	        c.start();
+	        fight = false;
+		}else {
+			c.stop();
+			fight = true;
+		}
 	}
 	private static int iespeja=-1;
-	public static void triggerRandomPanel(String nodots){
+	public static void triggerRandomPanel(String nodots, String bumb){
 		
+		JPanel logs = new JPanel();
 		
+		logs.setLayout(null); 
+        logs.setSize(751, 565);
+        logs.setLocation(32, 109);
+        logs.setOpaque(false);
+	    main.add(logs);
+	    
 		if (Pokedatnis.kust != null) {
             Pokedatnis.kust.setVisible(false);
             Pokedatnis.kust.dispose();
         }
 		if(iespeja==0) {
+			switch(bumb) {
+			case "pp":
+				JLabel pp = new JLabel(new ImageIcon("bildes/pp.png"));
+				pp.setSize(751, 565);
+				logs.add(pp);
+				break;
+			case "mm":
+				JLabel mm = new JLabel(new ImageIcon("bildes/mm.png"));
+				mm.setSize(751, 565);
+				logs.add(mm);
+				break;
+			case "uu":
+				JLabel uu = new JLabel(new ImageIcon("bildes/uu.png"));
+				uu.setSize(751, 565);
+				logs.add(uu);
+				break;
+			}
 			switch(nodots) {
 			case "Squirtle112.png": 
 				poki.add(new UdensP(
@@ -579,7 +628,7 @@ public class Pokedatnis {
 			iespeja=-1;
         }else {
 			Random rand = new Random();
-			String []izvele = {"Squirtle112.png", "licka.png", "Elekid1.png","Int.png"};
+			String []izvele = {"Squirtle112.png", "Elekid1.png","Int.png"};
 			String png;
 			
 			if(iespeja == -1) {
@@ -587,15 +636,11 @@ public class Pokedatnis {
 			}else {
 				png = nodots;
 			}
-		    JPanel logs = new JPanel();
-		    JLabel back = new JLabel(new ImageIcon("bildes/opcijas.png"));
-		    back.setSize(751, 565);
 		    
-		    logs.setLayout(null); 
-	        logs.setSize(751, 565);
-	        logs.setLocation(32, 109);
-	        logs.setOpaque(false);
-		    main.add(logs);
+			JLabel back = new JLabel(new ImageIcon("bildes/opcijas.png"));
+			back.setSize(751, 565);
+			logs.add(back);
+			
 		    //DONE
 		    JButton kert = new JButton();
 		    kert.setSize(109,38);
@@ -693,7 +738,7 @@ public class Pokedatnis {
 						iespeja=rand.nextInt(4);
 						logs.removeAll();
 				    	main.remove(logs);
-				    	triggerRandomPanel(png);
+				    	triggerRandomPanel(png, "pp");
 					}
 				});
 			
@@ -709,7 +754,7 @@ public class Pokedatnis {
 						iespeja=rand.nextInt(4);
 						logs.removeAll();
 				    	main.remove(logs);
-				    	triggerRandomPanel(png);
+				    	triggerRandomPanel(png, "mm");
 					}
 				});
 				u.addActionListener(ev -> {
@@ -724,7 +769,7 @@ public class Pokedatnis {
 						iespeja=rand.nextInt(4);
 						logs.removeAll();
 				    	main.remove(logs);
-				    	triggerRandomPanel(png);
+				    	triggerRandomPanel(png, "uu");
 					}
 				});
 				
@@ -737,6 +782,24 @@ public class Pokedatnis {
 	            main.repaint();
 	            Pokedatnis.kust.setVisible(true);
 	        });
+		    
+		    fight.addActionListener(e ->{
+		    	logs.removeAll();
+		    	logs.revalidate();
+				logs.repaint();
+				try {
+					start();
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+					e1.printStackTrace();
+				}
+		    });
 		}
 	}
+	static void timer(int n){
+        try {
+            Thread.sleep(n);
+        }catch (Exception e){
+            
+        }
+   }
 }
