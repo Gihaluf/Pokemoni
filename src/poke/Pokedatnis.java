@@ -25,14 +25,14 @@ import javax.swing.WindowConstants;
 import main.GamePanel;
 /*	NAV PIEVINOTS CATCH OPCIJA, VAJAG SALABOT POKEDEX, FIGHT, STORAGE(ARRAYLIST UN ATTELI)*/
 public class Pokedatnis {
-	static ArrayList<String> pokemoni = new ArrayList<String>();
+	public static ArrayList<Object> poki = new ArrayList<>();
 	private static JFrame main = new JFrame();
 	public static GamePanel  gamePanel = new GamePanel();
 	public static JFrame kust = new JFrame();
 	static boolean reize = true;
 	private static int []PBsk= {5};
 	private static int []MBsk= {2};
-	private static int []UBsk= {1};
+	private static int []UBsk= {100};
 	private static JLabel PokeballSk = new JLabel();
 	private static JLabel MediumballSk = new JLabel();
 	private static JLabel UltraballSk = new JLabel();
@@ -100,6 +100,7 @@ public class Pokedatnis {
 		Pokedex.setContentAreaFilled(false);
 		Pokedex.setBorderPainted(false);
 		main.add(Pokedex);
+		
 		String[] name = {"Squirtle", "Wartortle", "Blastoise", "Lickitung", "Lickylicky", "Elekid", "Elecabuzz", "Electivire"};
 		String[] hp = {"44","59","79","90","110","45","65","75"};
 		String[] atk = {"48","63","83","55","85","63","83","123"};
@@ -222,8 +223,46 @@ public class Pokedatnis {
 			ImageIcon inv = new ImageIcon("bildes/Inventoyy.png");
 			JLabel INV = new JLabel(inv);
 			INV.setSize(751, 560);
-			panel.add(INV);
-			
+	
+			if(poki.size()>=0) {
+				String b = "";
+				int reize=0;
+				int col=0;
+				int[][] cord = new int [8][2];
+				for(int x=0; x<cord.length; x++) {
+					for(int y=0; y<cord[x].length; y++) {
+						if(x==0) cord[x][y] = 227+(reize*88);
+						if(x==1) cord[x][y] = 162+(reize*84);
+						System.out.println(cord[x][y]);
+						reize++;
+					}
+				}
+				reize=0;
+				for(int i=1; i<poki.size(); i++) {
+					String nosaukums = ((Pokemons)poki.get(i-1)).getVards();
+					switch(nosaukums) {
+					case "Squirtle":
+						b="s.png";
+						break;
+					case "Elekid":
+						b="e.png";
+						break;
+						
+					}
+					JLabel pirm = pokedex(b);
+					//88 84
+					pirm.setSize(61,60);
+					
+					pirm.setLocation(227+(col*88),162+(reize*84));
+					col++;
+					if(col==3) col=0;
+					if(i%4==0) reize++;
+					INV.add(pirm);
+				}
+			}
+			panel.add(INV); 
+			panel.revalidate();
+			panel.repaint();
 		});
 		
 		
@@ -518,10 +557,26 @@ public class Pokedatnis {
             Pokedatnis.kust.setVisible(false);
             Pokedatnis.kust.dispose();
         }
-		if(iespeja>=0) {
+		if(iespeja==0) {
 			switch(nodots) {
-				
+			case "Squirtle112.png": 
+				poki.add(new UdensP(
+						"Water",
+						"Squirtle",
+						44,
+						48,
+						43));
+				break;
+			case "Elekid1.png":
+				poki.add(new UdensP(
+						"Electric",
+						"Elekid",
+						45,
+						63,
+						95));
+				break;
 			}
+			iespeja=-1;
         }else {
 			Random rand = new Random();
 			String []izvele = {"Squirtle112.png", "licka.png", "Elekid1.png","Int.png"};
@@ -541,28 +596,41 @@ public class Pokedatnis {
 	        logs.setLocation(32, 109);
 	        logs.setOpaque(false);
 		    main.add(logs);
-		    
+		    //DONE
 		    JButton kert = new JButton();
-		    kert.setSize(50,50);
-		    kert.setLocation(100,150);
+		    kert.setSize(109,38);
+		    kert.setLocation(530,442);
+		    kert.setOpaque(false);
+		    kert.setContentAreaFilled(false);
+		    kert.setBorderPainted(false);
 		    
-		    //done
+		    //DONE
 		    JButton begt = new JButton();
-		    begt.setSize(50,50);
-		    begt.setLocation(150,100);
+		    begt.setSize(109,38);
+		    begt.setLocation(529, 487);
+		    begt.setOpaque(false);
+		    begt.setContentAreaFilled(false);
+		    begt.setBorderPainted(false);
 		    
-		    
+		    //NOT DONE 
 		    JButton fight = new JButton();
-		    fight.setSize(50,50);
-		    fight.setLocation(150,150);
+		    fight.setSize(109,38);
+		    fight.setLocation(409,442);
+		    fight.setOpaque(false);
+		    fight.setContentAreaFilled(false);
+		    fight.setBorderPainted(false);
+		   
+		    
+		    JButton secret = new JButton();
+		    secret.setSize(109,38);
+		    secret.setLocation(409, 487);
+		    
 		    
 		    JLabel bilde = pokedex(png);
 		    if(png == "Int.png") {
 			    bilde.setSize(200, 400);
 			    bilde.setLocation(250,0);
-		    
 		    }else {
-		    	
 			    bilde.setSize(200, 200);
 			    bilde.setLocation(270,170);
 		    }
@@ -571,9 +639,7 @@ public class Pokedatnis {
 		    main.revalidate();
 	        main.repaint();
 		    
-		    /*JButton bag = new JButton();
-		    logs.add(inv);*/
-		     
+		    logs.add(secret);
 	        logs.add(begt);
 		    logs.add(kert);
 		    logs.add(fight);
@@ -584,7 +650,7 @@ public class Pokedatnis {
 		    	logs.revalidate();
 				logs.repaint();
 				
-			    JLabel POpc = new JLabel(new ImageIcon("bildes/pokedihss.png"));
+			    JLabel POpc = new JLabel(new ImageIcon("bildes/Useitem.png"));
 			    POpc.setSize(751, 560);
 			    
 			    JButton p = new JButton();
@@ -638,14 +704,12 @@ public class Pokedatnis {
 						main.revalidate();
 						main.repaint();
 						iespeja=rand.nextInt(3);
+						main.revalidate();
+						main.repaint();
+						iespeja=rand.nextInt(4);
 						logs.removeAll();
-				    	logs.revalidate();
-						logs.repaint();
-						kert.setSize(50,50);
-					    kert.setLocation(100,150);
-						logs.add(kert);
-						logs.add(begt);
-						logs.add(fight);
+				    	main.remove(logs);
+				    	triggerRandomPanel(png);
 					}
 				});
 				u.addActionListener(ev -> {
@@ -655,14 +719,12 @@ public class Pokedatnis {
 						main.revalidate();
 						main.repaint();
 						iespeja=rand.nextInt(2);
+						main.revalidate();
+						main.repaint();
+						iespeja=rand.nextInt(4);
 						logs.removeAll();
-				    	logs.revalidate();
-						logs.repaint();
-						kert.setSize(50,50);
-					    kert.setLocation(100,150);
-						logs.add(kert);
-						logs.add(begt);
-						logs.add(fight);
+				    	main.remove(logs);
+				    	triggerRandomPanel(png);
 					}
 				});
 				

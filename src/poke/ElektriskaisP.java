@@ -1,13 +1,13 @@
 package poke;
 
 public class ElektriskaisP extends Pokemons {
-    private String elements, overcharge, speedBoost;
-    public ElektriskaisP(String elements, String name, int HP, int attackPower, int speed) {
+    private String Eelements, overcharge, speedBoost;
+    public ElektriskaisP(String Eelements, String name, int HP, int attackPower, int speed) {
         super(name, HP, attackPower, speed);
-        this.elements = elements;
+        this.Eelements = Eelements;
     }
 
-    @Override
+    /*@Override
     public void attack(Pokemons opponent) {
         int damage = this.attackPower + 5; 
         System.out.println(name + " uses static electricity against " + opponent.getVards() + "!");
@@ -21,14 +21,14 @@ public class ElektriskaisP extends Pokemons {
     @Override
     public void weakness() {
         System.out.println(name + " is weak to Ground-type attacks!");
-    }
+    }*/
 
     public String getElements() {
-        return elements;
+        return Eelements;
     }
 
     public void setElements(String elements) {
-        this.elements = elements;
+        this.Eelements = elements;
     }
 
     public String getSpeedBoost() {
@@ -46,5 +46,11 @@ public class ElektriskaisP extends Pokemons {
     public void setOvercharge(String overcharge) {
         this.overcharge = overcharge;
     }
+
+	@Override
+	public void attack(Pokemons opponent) {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

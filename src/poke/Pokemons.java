@@ -1,10 +1,10 @@
 package poke;
 
 public abstract class Pokemons {
-    protected String name;
-    protected int health;
-    protected int attackPower;
-    protected int speed;
+	private String name;
+    private int health;
+    private int attackPower;
+    private int speed;
 
     public Pokemons(String name, int HP, int attackPower, int speed) {
         this.name = name;
@@ -16,9 +16,29 @@ public abstract class Pokemons {
     public String getVards() {
         return name;
     }
+    public void setVards(String name) {
+    	this.name=name;
+    }
 
     public int getHP() {
         return health;
+    }
+    public void setHP(int HP) {
+    	health=HP;
+    }
+    
+    public int getATK() {
+        return attackPower;
+    }
+    public void setATK(int atk) {
+    	attackPower = atk;
+    }
+
+    public int getSPD() {
+        return speed;
+    }
+    public void setSPD(int SPD) {
+    	speed = SPD;
     }
 
     public void heal(int amount) {
