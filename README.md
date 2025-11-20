@@ -16,6 +16,6 @@ Objektorientētā programma par Pokémoniem ļauj izveidot dažāda tipa Pokémo
 - [x] Nodrošināt polimorfismu un abstraktās metodes īstenošanu
 - [x] Iespēja izveidot jaunu Pokémonu (Elektriskais / Ūdens)
 - [x] Metožu izsaukšana izvēlētam Pokémonam
-- [] Kauju rīkošana starp Pokémoniem (noteikt uzvarētāju loģiku)
+- [ ] Kauju rīkošana starp Pokémoniem (noteikt uzvarētāju loģiku)
 - [x] Kļūdu un nepareizas datu ievades pārvaldība
 - [x] (Papildus) Lietotāja grafiskais interfeiss (formas, pogas, skaitītāji)
