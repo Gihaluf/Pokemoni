@@ -93,7 +93,7 @@ public class Pokedatnis {
 		String[] name = {"Squirtle", "Wartortle", "Blastoise", "Lickitung", "Lickylicky", "Elekid", "Elecabuzz", "Electivire"};
 		String[] hp = {"44","59","79","90","110","45","65","75"};
 		String[] atk = {"48","63","83","55","85","63","83","123"};
-		String[] spd = {"43","58","78","","30","50","95","105","95"};
+		String[] spd = {"43","58","78","30","50","95","105","95"};
 		String[] pokemoni = {"Squirtle1.gif", "wartortle21.gif", "Blastoise12.gif", "Lick1.gif", "lickylicky.gif", "elekid.gif", "electabuzz.gif", "electivire.gif"};
 		String[] type = {"Sqrt.png","Sqrt.png","Sqrt.png", "Lck.png", "Lck.png", "ele.png", "ele.png", "ele.png"};
 		String[] info = {
@@ -269,33 +269,33 @@ public class Pokedatnis {
 			NAME.setLineWrap(true);
 			NAME.setWrapStyleWord(true);
 			NAME.setOpaque(false);
-			NAME.setSize(20, 20);
+			NAME.setSize(200, 50);
 			NAME.setFont(new Font("Monospaced", Font.BOLD, 20));
-			NAME.setLocation(30,470);
+			NAME.setLocation(115,378);
 			
 			JTextArea HP = new JTextArea(hp[skaits[0]]);
 			HP.setLineWrap(true);
 			HP.setWrapStyleWord(true);
 			HP.setOpaque(false);
-			HP.setSize(700, 200);
+			HP.setSize(200, 50);
 			HP.setFont(new Font("Monospaced", Font.BOLD, 20));
-			HP.setLocation(100,100);
+			HP.setLocation(70,399);
 			
 			JTextArea ATK = new JTextArea(atk[skaits[0]]);
 			ATK.setLineWrap(true);
 			ATK.setWrapStyleWord(true);
 			ATK.setOpaque(false);
-			ATK.setSize(700, 200);
+			ATK.setSize(200, 50);
 			ATK.setFont(new Font("Monospaced", Font.BOLD, 20));
-			ATK.setLocation(100,410);
+			ATK.setLocation(90,420);
 			
 			JTextArea SPD = new JTextArea(spd[skaits[0]]);
-			pirmaisa.setLineWrap(true);
-			pirmaisa.setWrapStyleWord(true);
-			pirmaisa.setOpaque(false);
-			pirmaisa.setSize(700, 200);
-			pirmaisa.setFont(new Font("Monospaced", Font.BOLD, 20));
-			pirmaisa.setLocation(30,470);
+			SPD.setLineWrap(true);
+			SPD.setWrapStyleWord(true);
+			SPD.setOpaque(false);
+			SPD.setSize(200, 50);
+			SPD.setFont(new Font("Monospaced", Font.BOLD, 20));
+			SPD.setLocation(90,445);
 			
 			
 			INF.add(pirmaisa);
@@ -337,45 +337,45 @@ public class Pokedatnis {
 				JLabel tips = pokedex(type[skaits[0]]);
 				tips.setSize(260, 167);
 				Pokemon.add(tips);
+				
 				JTextArea N = new JTextArea(name[skaits[0]]);
-				pirmaisa.setLineWrap(true);
-				pirmaisa.setWrapStyleWord(true);
-				pirmaisa.setOpaque(false);
-				pirmaisa.setSize(20, 20);
-				pirmaisa.setFont(new Font("Monospaced", Font.BOLD, 20));
-				pirmaisa.setLocation(30,470);
+				N.setLineWrap(true);
+				N.setWrapStyleWord(true);
+				N.setOpaque(false);
+				N.setSize(200, 50);
+				N.setFont(new Font("Monospaced", Font.BOLD, 20));
+				N.setLocation(115,378);
 				
 				JTextArea H = new JTextArea(hp[skaits[0]]);
-				pirmaisa.setLineWrap(true);
-				pirmaisa.setWrapStyleWord(true);
-				pirmaisa.setOpaque(false);
-				pirmaisa.setSize(700, 200);
-				pirmaisa.setFont(new Font("Monospaced", Font.BOLD, 20));
-				pirmaisa.setLocation(100,100);
+				H.setLineWrap(true);
+				H.setWrapStyleWord(true);
+				H.setOpaque(false);
+				H.setSize(200, 50);
+				H.setFont(new Font("Monospaced", Font.BOLD, 20));
+				H.setLocation(70,399);
 				
 				JTextArea A = new JTextArea(atk[skaits[0]]);
-				pirmaisa.setLineWrap(true);
-				pirmaisa.setWrapStyleWord(true);
-				pirmaisa.setOpaque(false);
-				pirmaisa.setSize(700, 200);
-				pirmaisa.setFont(new Font("Monospaced", Font.BOLD, 20));
-				pirmaisa.setLocation(100,410);
+				A.setLineWrap(true);
+				A.setWrapStyleWord(true);
+				A.setOpaque(false);
+				A.setSize(200, 50);
+				A.setFont(new Font("Monospaced", Font.BOLD, 20));
+				A.setLocation(90,420);
 				
 				JTextArea S = new JTextArea(spd[skaits[0]]);
-				pirmaisa.setLineWrap(true);
-				pirmaisa.setWrapStyleWord(true);
-				pirmaisa.setOpaque(false);
-				pirmaisa.setSize(700, 200);
-				pirmaisa.setFont(new Font("Monospaced", Font.BOLD, 20));
-				pirmaisa.setLocation(30,470);
+				S.setLineWrap(true);
+				S.setWrapStyleWord(true);
+				S.setOpaque(false);
+				S.setSize(200, 50);
+				S.setFont(new Font("Monospaced", Font.BOLD, 20));
+				S.setLocation(90,445);
 				
-				
-				INF.add(apraksts);
-				INF.add(bildite);
 				INF.add(N);
 				INF.add(H);
 				INF.add(A);
 				INF.add(S);
+				INF.add(apraksts);
+				INF.add(bildite);
 				Pokemon.add(tips);
 				
 			});
@@ -415,7 +415,42 @@ public class Pokedatnis {
 				JLabel tips = pokedex(type[skaits[0]]);
 				tips.setSize(260, 167);
 				Pokemon.add(tips);
+				JTextArea N = new JTextArea(name[skaits[0]]);
+				N.setLineWrap(true);
+				N.setWrapStyleWord(true);
+				N.setOpaque(false);
+				N.setSize(200, 50);
+				N.setFont(new Font("Monospaced", Font.BOLD, 20));
+				N.setLocation(115,378);
 				
+				JTextArea H = new JTextArea(hp[skaits[0]]);
+				H.setLineWrap(true);
+				H.setWrapStyleWord(true);
+				H.setOpaque(false);
+				H.setSize(200, 50);
+				H.setFont(new Font("Monospaced", Font.BOLD, 20));
+				H.setLocation(70,399);
+				
+				JTextArea A = new JTextArea(atk[skaits[0]]);
+				A.setLineWrap(true);
+				A.setWrapStyleWord(true);
+				A.setOpaque(false);
+				A.setSize(200, 50);
+				A.setFont(new Font("Monospaced", Font.BOLD, 20));
+				A.setLocation(90,420);
+				
+				JTextArea S = new JTextArea(spd[skaits[0]]);
+				S.setLineWrap(true);
+				S.setWrapStyleWord(true);
+				S.setOpaque(false);
+				S.setSize(200, 50);
+				S.setFont(new Font("Monospaced", Font.BOLD, 20));
+				S.setLocation(90,445);
+				
+				INF.add(N);
+				INF.add(H);
+				INF.add(A);
+				INF.add(S);
 				INF.add(apraksts);
 				INF.add(bildite);
 				Pokemon.add(tips);
