@@ -3,8 +3,17 @@ package poke;
 
 
 import java.awt.Font;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Random;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +25,7 @@ import javax.swing.WindowConstants;
 import main.GamePanel;
 /*	NAV PIEVINOTS CATCH OPCIJA, VAJAG SALABOT POKEDEX, FIGHT, STORAGE(ARRAYLIST UN ATTELI)*/
 public class Pokedatnis {
+	static ArrayList<String> pokemoni = new ArrayList<String>();
 	private static JFrame main = new JFrame();
 	public static GamePanel  gamePanel = new GamePanel();
 	public static JFrame kust = new JFrame();
@@ -32,8 +42,8 @@ public class Pokedatnis {
 		return bilde;
 	}
 	
-	public static void main(String[] args) {
-		
+	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
+		start();
 		main.setLocation(150, 50);
 		main.setSize(1244, 700);
 		main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -64,7 +74,7 @@ public class Pokedatnis {
 		Pokemon.setOpaque(false);
 		main.add(Pokemon);
 		
-		
+		//DONE
 		JButton Stop = new JButton();
 		Stop.setSize(84, 60);
 		Stop.setLocation(58, 12);
@@ -74,7 +84,7 @@ public class Pokedatnis {
 		Stop.addActionListener(e -> System.exit(0));
 		main.add(Stop);
 		
-		
+		//DONE
 		JButton Home = new JButton();
 		Home.setSize(72, 104);
 		Home.setLocation(907, 530);
@@ -82,7 +92,7 @@ public class Pokedatnis {
 		Home.setContentAreaFilled(false);
 		Home.setBorderPainted(false);
 		main.add(Home);
-		
+		//DONE
 		JButton Pokedex = new JButton();
 		Pokedex.setSize(72, 110);
 		Pokedex.setLocation(1008, 383);
@@ -108,7 +118,7 @@ public class Pokedatnis {
 		};
 		
 		
-		
+		//UNFINISHED
 		JButton stiagat = new JButton();
 		stiagat.setSize(72, 110);
 		stiagat.setLocation(1008, 530);
@@ -134,7 +144,7 @@ public class Pokedatnis {
 		main.add(MediumballSk);
 		main.add(UltraballSk);
 			
-		
+		//DONE
 		JButton Shop = new JButton();
 		Shop.setSize(72, 110);
 		Shop.setLocation(907, 384);
@@ -180,9 +190,7 @@ public class Pokedatnis {
 			UltraballSk.setText(String.valueOf(UBsk[0]));
 		});
 		
-		
-		
-		
+		//UNFINISHED
 		JButton storage = new JButton();
 		storage.setSize(76, 110);
 		storage.setLocation(1118, 384);
@@ -191,17 +199,9 @@ public class Pokedatnis {
 		storage.setBorderPainted(false);
 		main.add(storage);
 		
-		
-		/*JButton fight = new JButton();
-		fight.setSize(72, 73);
-		fight.setLocation(1008, 600);
-		main.add(fight);*/
-		
-		
 		main.setVisible(true);
-		
-		
 		//action listeners
+		
 		Home.addActionListener(e -> {
 			
 			panel.removeAll();
@@ -486,7 +486,7 @@ public class Pokedatnis {
 			panel.revalidate();
 			panel.repaint();
 			
-			ImageIcon s = new ImageIcon("bildes/pokedihss.png");
+			ImageIcon s = new ImageIcon("bildes/shop.png");
 			JLabel shop = new JLabel(s);
 			shop.setSize(751, 560);
 			
@@ -501,7 +501,15 @@ public class Pokedatnis {
 		});
 		
 	}
-	
+	public static void start() throws MalformedURLException, 
+    UnsupportedAudioFileException, IOException, 
+    LineUnavailableException{
+            File f = new File(".//sound//"+"main.wav");
+            AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
+            Clip c = AudioSystem.getClip();
+            c.open(ais);
+            c.start();
+	}
 	private static int iespeja=-1;
 	public static void triggerRandomPanel(String nodots){
 		
@@ -512,150 +520,161 @@ public class Pokedatnis {
         }
 		if(iespeja>=0) {
 			switch(nodots) {
-			
+				
 			}
-        }
-		Random rand = new Random();
-		String []izvele = {"Squirtle112.png", "lick1.png", "Elekid1.png",};
-		String png;
-		
-		if(iespeja == -1) {
-			png = izvele[rand.nextInt(izvele.length)];
-		}else {
-			png = nodots;
+        }else {
+			Random rand = new Random();
+			String []izvele = {"Squirtle112.png", "licka.png", "Elekid1.png","Int.png"};
+			String png;
+			
+			if(iespeja == -1) {
+				png = izvele[rand.nextInt(izvele.length)];
+			}else {
+				png = nodots;
+			}
+		    JPanel logs = new JPanel();
+		    JLabel back = new JLabel(new ImageIcon("bildes/opcijas.png"));
+		    back.setSize(751, 565);
+		    
+		    logs.setLayout(null); 
+	        logs.setSize(751, 565);
+	        logs.setLocation(32, 109);
+	        logs.setOpaque(false);
+		    main.add(logs);
+		    
+		    JButton kert = new JButton();
+		    kert.setSize(50,50);
+		    kert.setLocation(100,150);
+		    
+		    //done
+		    JButton begt = new JButton();
+		    begt.setSize(50,50);
+		    begt.setLocation(150,100);
+		    
+		    
+		    JButton fight = new JButton();
+		    fight.setSize(50,50);
+		    fight.setLocation(150,150);
+		    
+		    JLabel bilde = pokedex(png);
+		    if(png == "Int.png") {
+			    bilde.setSize(200, 400);
+			    bilde.setLocation(250,0);
+		    
+		    }else {
+		    	
+			    bilde.setSize(200, 200);
+			    bilde.setLocation(270,170);
+		    }
+		    
+		    logs.setVisible(true); 
+		    main.revalidate();
+	        main.repaint();
+		    
+		    /*JButton bag = new JButton();
+		    logs.add(inv);*/
+		     
+	        logs.add(begt);
+		    logs.add(kert);
+		    logs.add(fight);
+		    logs.add(bilde);
+		    logs.add(back);
+		    kert.addActionListener(e -> {
+		    	logs.removeAll();
+		    	logs.revalidate();
+				logs.repaint();
+				
+			    JLabel POpc = new JLabel(new ImageIcon("bildes/pokedihss.png"));
+			    POpc.setSize(751, 560);
+			    
+			    JButton p = new JButton();
+			    p.setSize(170, 160);
+				p.setLocation(124,235);
+			    p.setOpaque(false);
+				p.setContentAreaFilled(false);
+				p.setBorderPainted(false);
+				
+			    JButton m = new JButton();
+			    m.setSize(170, 160);
+				m.setLocation(310,235);
+				m.setOpaque(false);
+				m.setContentAreaFilled(false);
+				m.setBorderPainted(false);
+				
+	
+			    JButton u = new JButton();
+			    u.setSize(170, 160);
+				u.setLocation(490, 235);
+				u.setOpaque(false);
+				u.setContentAreaFilled(false);
+				u.setBorderPainted(false);
+				
+			    
+				POpc.add(p);
+				POpc.add(m);
+				POpc.add(u);
+			    
+				logs.add(POpc);
+			    logs.revalidate();
+				logs.repaint();
+				
+				p.addActionListener(ev -> {
+					if(PBsk[0]>0) {
+						PBsk[0]-=1;
+						PokeballSk.setText(String.valueOf(PBsk[0]));
+						main.revalidate();
+						main.repaint();
+						iespeja=rand.nextInt(4);
+						logs.removeAll();
+				    	main.remove(logs);
+				    	triggerRandomPanel(png);
+					}
+				});
+			
+				m.addActionListener(ev -> {
+					if(MBsk[0]>0) {
+						MBsk[0]-=1;
+						MediumballSk.setText(String.valueOf(MBsk[0]));
+						main.revalidate();
+						main.repaint();
+						iespeja=rand.nextInt(3);
+						logs.removeAll();
+				    	logs.revalidate();
+						logs.repaint();
+						kert.setSize(50,50);
+					    kert.setLocation(100,150);
+						logs.add(kert);
+						logs.add(begt);
+						logs.add(fight);
+					}
+				});
+				u.addActionListener(ev -> {
+					if(UBsk[0]>0) {
+						UBsk[0]-=1;
+						UltraballSk.setText(String.valueOf(UBsk[0]));
+						main.revalidate();
+						main.repaint();
+						iespeja=rand.nextInt(2);
+						logs.removeAll();
+				    	logs.revalidate();
+						logs.repaint();
+						kert.setSize(50,50);
+					    kert.setLocation(100,150);
+						logs.add(kert);
+						logs.add(begt);
+						logs.add(fight);
+					}
+				});
+				
+				
+		    });
+		    begt.addActionListener(e -> {
+	           
+	            main.remove(logs);
+	            main.revalidate();
+	            main.repaint();
+	            Pokedatnis.kust.setVisible(true);
+	        });
 		}
-	    JPanel logs = new JPanel();
-	    logs.setLayout(null); 
-        logs.setSize(751, 565);
-        logs.setLocation(32, 109);
-        logs.setOpaque(false);
-	    main.add(logs);
-	    
-	    JButton kert = new JButton();
-	    kert.setSize(50,50);
-	    kert.setLocation(100,150);
-	    logs.add(kert);
-	    
-	    
-	    JButton begt = new JButton();
-	    begt.setSize(50,50);
-	    begt.setLocation(150,100);
-	    logs.add(begt);
-	    
-	    JButton fight = new JButton();
-	    fight.setSize(50,50);
-	    fight.setLocation(150,150);
-	    logs.add(fight);
-	    
-	    JLabel bilde = pokedex(png);
-	    bilde.setSize(200, 200);
-	    bilde.setLocation(40, 50);
-	    logs.add(bilde);
-	    
-	    logs.setVisible(true); 
-	    main.revalidate();
-        main.repaint();
-	    
-	    /*JButton inv = new JButton();
-	    logs.add(inv);*/
-	     
-        
-	    kert.addActionListener(e -> {
-	    	logs.removeAll();
-	    	logs.revalidate();
-			logs.repaint();
-			
-		    JLabel POpc = new JLabel(new ImageIcon("bildes/pokedihss.png"));
-		    POpc.setSize(751, 560);
-		    
-		    JButton p = new JButton();
-		    p.setSize(170, 160);
-			p.setLocation(124,235);
-		    p.setOpaque(false);
-			p.setContentAreaFilled(false);
-			p.setBorderPainted(false);
-			
-		    JButton m = new JButton();
-		    m.setSize(170, 160);
-			m.setLocation(310,235);
-			m.setOpaque(false);
-			m.setContentAreaFilled(false);
-			m.setBorderPainted(false);
-			
-
-		    JButton u = new JButton();
-		    u.setSize(170, 160);
-			u.setLocation(490, 235);
-			u.setOpaque(false);
-			u.setContentAreaFilled(false);
-			u.setBorderPainted(false);
-			
-		    
-			POpc.add(p);
-			POpc.add(m);
-			POpc.add(u);
-		    
-			logs.add(POpc);
-		    logs.revalidate();
-			logs.repaint();
-			
-			p.addActionListener(ev -> {
-				if(PBsk[0]>0) {
-					PBsk[0]-=1;
-					PokeballSk.setText(String.valueOf(PBsk[0]));
-					main.revalidate();
-					main.repaint();
-					iespeja=rand.nextInt(4);
-					logs.removeAll();
-			    	main.remove(logs);
-			    	triggerRandomPanel(png);
-				}
-			});
-		
-			m.addActionListener(ev -> {
-				if(MBsk[0]>0) {
-					MBsk[0]-=1;
-					MediumballSk.setText(String.valueOf(MBsk[0]));
-					main.revalidate();
-					main.repaint();
-					iespeja=rand.nextInt(3);
-					logs.removeAll();
-			    	logs.revalidate();
-					logs.repaint();
-					kert.setSize(50,50);
-				    kert.setLocation(100,150);
-					logs.add(kert);
-					logs.add(begt);
-					logs.add(fight);
-				}
-			});
-			u.addActionListener(ev -> {
-				if(UBsk[0]>0) {
-					UBsk[0]-=1;
-					UltraballSk.setText(String.valueOf(UBsk[0]));
-					main.revalidate();
-					main.repaint();
-					iespeja=rand.nextInt(2);
-					logs.removeAll();
-			    	logs.revalidate();
-					logs.repaint();
-					kert.setSize(50,50);
-				    kert.setLocation(100,150);
-					logs.add(kert);
-					logs.add(begt);
-					logs.add(fight);
-				}
-			});
-			
-			
-	    });
-	    begt.addActionListener(e -> {
-           
-            main.remove(logs);
-            main.revalidate();
-            main.repaint();
-            Pokedatnis.kust.setVisible(true);
-        });
 	}
-	    
 }
