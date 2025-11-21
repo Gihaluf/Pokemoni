@@ -8,21 +8,17 @@ public class UdensP extends Pokemons {
         this.Uelements = Uelements;
     }
 
-    /*@Override
-    public void attack(Pokemons opponent) {
-    	
-        int damage = getATK()+3;
-        System.out.println(getVards() + " uses a water attack against " + opponent.getVards() + "!");
-
-        opponent.health -= damage;
-        if (opponent.health < 0) opponent.health = 0;
-
-        System.out.println(opponent.getVards() + " loses " + damage + " HP! Remaining HP: " + opponent.getHP());
-    }*/
+    @Override
+    public void uzbrukt(Pokemons opponent) {
+		int damage = this.getATK() + 7; 
+		opponent.setHP(opponent.getHP() - damage);
+		if (opponent.getHP() < 0) opponent.setHP(0);
+	}
+    
 
     @Override
     public void weakness() {
-        System.out.println(getVards() + " is weak to Electric and Grass-type attacks!");
+    String weaknessType = "Electric and Earth-type attacks";
     }
     
     public String getElements() {
@@ -55,9 +51,4 @@ public class UdensP extends Pokemons {
     public void setBubbleBeam(String bubbleBeam) {
         this.bubbleBeam = bubbleBeam;
     }
-
-	@Override
-	public void uzbrukt(Pokemons opponent) {
-		
-	}
 }
