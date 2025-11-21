@@ -542,39 +542,33 @@ public class Pokedatnis {
 		});
 		
 	}
-	static boolean startam = true;
-	public static void start() throws MalformedURLException, 
-    UnsupportedAudioFileException, IOException, 
-    LineUnavailableException{
-		File f = new File(".//sound//"+"main.wav");
-	    AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
-        Clip c = AudioSystem.getClip();
-		if(startam) {
-	        c.open(ais);
-	        c.start();
-	        startam = false;
-		}else {
-			c.stop();
-			startam = true;
-		}
-	}
-	static boolean fight = true;
-	public static void startf() throws MalformedURLException, 
-    UnsupportedAudioFileException, IOException, 
-    LineUnavailableException{
-		File f = new File(".//sound//"+"fight.wav");
-	    AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
-        Clip c = AudioSystem.getClip();
-		if(startam) {
-	        c.open(ais);
-	        c.start();
-	        fight = false;
-		}else {
-			c.stop();
-			fight = true;
-		}
-	}
+	private static boolean playing = false;
+	static Clip clip;
+	 public static void start() throws MalformedURLException, 
+	            UnsupportedAudioFileException, IOException, 
+	            LineUnavailableException {
+	        if (!playing) {
+	            File f = new File(".//sound//main.wav");
+	            AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
+	            clip = AudioSystem.getClip();
+	            clip.open(ais);
+	            clip.start();
+	            playing = true;
+	        } else {
+	            if (clip != null && clip.isRunning()) {
+	            	File f = new File(".//sound//fight.wav");
+	                clip.stop();
+	                AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
+		            clip = AudioSystem.getClip();
+		            clip.open(ais);
+		            clip.start();
+	                
+	            }
+	            playing = false;
+	        }
+	    }
 	private static int iespeja=-1;
+	private static boolean fighting = false;
 	public static void triggerRandomPanel(String nodots, String bumb){
 		
 		JPanel logs = new JPanel();
@@ -589,21 +583,61 @@ public class Pokedatnis {
             Pokedatnis.kust.setVisible(false);
             Pokedatnis.kust.dispose();
         }
+		JButton back = new JButton();
+		back.setSize(109,38);
+		back.setLocation(529, 487);
+		/*back.setOpaque(false);
+	    back.setContentAreaFilled(false);
+	    back.setBorderPainted(false);*/
+		if(fighting) {
+			JLabel scene = new JLabel(new ImageIcon("bildes/ekra.png"));
+			scene.setSize(751, 560);
+			logs.add(scene);
+			JLabel fopc = new JLabel(new ImageIcon("bildes/fight.png"));
+			fopc.setSize(751, 560);
+			 JButton atak = new JButton();
+				 atak.setSize(140,38);
+				 atak.setLocation(305, 210);
+				 /*atak.setOpaque(false);
+				 atak.setContentAreaFilled(false);
+				 atak.setBorderPainted(false);*/
+		 	JButton defe = new JButton();
+		 	defe.setSize(140,38);
+		 	defe.setLocation(305, 260);
+		 	defe.setOpaque(false);
+			defe.setContentAreaFilled(false);
+			/*defe.setBorderPainted(false);
+		 	JButton kert = new JButton();
+			    kert.setSize(109,38);
+			    kert.setLocation(530,450);
+			    kert.setOpaque(false);
+			    kert.setContentAreaFilled(false);
+			    kert.setBorderPainted(false);*/
+			fopc.add(atak);
+			fopc.add(defe);
+			
+			
+			scene.add(fopc)	;	
+			//triggerRandomPanel(nodots,"");
+		}
 		if(iespeja==0) {
 			switch(bumb) {
 			case "pp":
 				JLabel pp = new JLabel(new ImageIcon("bildes/pp.png"));
 				pp.setSize(751, 565);
+				logs.add(back);
 				logs.add(pp);
 				break;
 			case "mm":
 				JLabel mm = new JLabel(new ImageIcon("bildes/mm.png"));
 				mm.setSize(751, 565);
+				logs.add(back);
 				logs.add(mm);
 				break;
 			case "uu":
 				JLabel uu = new JLabel(new ImageIcon("bildes/uu.png"));
 				uu.setSize(751, 565);
+				logs.add(back);
 				logs.add(uu);
 				break;
 			}
@@ -637,9 +671,9 @@ public class Pokedatnis {
 				png = nodots;
 			}
 		    
-			JLabel back = new JLabel(new ImageIcon("bildes/opcijas.png"));
-			back.setSize(751, 565);
-			logs.add(back);
+			JLabel backg = new JLabel(new ImageIcon("bildes/opcijas.png"));
+			backg.setSize(751, 565);
+			logs.add(backg);
 			
 		    //DONE
 		    JButton kert = new JButton();
@@ -689,7 +723,7 @@ public class Pokedatnis {
 		    logs.add(kert);
 		    logs.add(fight);
 		    logs.add(bilde);
-		    logs.add(back);
+		    logs.add(backg);
 		    kert.addActionListener(e -> {
 		    	logs.removeAll();
 		    	logs.revalidate();
@@ -787,19 +821,22 @@ public class Pokedatnis {
 		    	logs.removeAll();
 		    	logs.revalidate();
 				logs.repaint();
+				fighting = true;
 				try {
 					start();
 				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
 					e1.printStackTrace();
 				}
+				triggerRandomPanel(png,"");
 		    });
 		}
+		
 	}
-	static void timer(int n){
+	/*static void timer(int n){
         try {
             Thread.sleep(n);
         }catch (Exception e){
             
         }
-   }
+   }*/
 }
