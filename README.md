@@ -11,11 +11,10 @@ Objektorientētā programma par Pokémoniem ļauj izveidot dažāda tipa Pokémo
 - [x] Izveidot apakšklasi **ElektriskaisP** (īsteno abstraktās metodes, satur elektriskā tipa īpašības)
 - [x] Izveidot apakšklasi **UdensP** (īsteno abstraktās metodes, satur ūdens tipa īpašības)
 - [x] Izveidot galveno **Pokedatnis** klasi (nodrošina Pokémonu izveidi, saglabāšanu un darbību izsaukšanu)
-- [x] Ieviest vismaz 4 atribūtus katrā klasē (piem., vārds, līmenis, veselība, tips)
-- [x] Ieviest vismaz 4 metodes katrā klasē (piem., `uzbrukt()`, `izvairities()`, `dziedet()`, `attistit()`)
+- [x] Ieviest vismaz 4 atribūtus katrā klasē (piem., vārds, spēks, veselība, ātrums)
+- [x] Ieviest vismaz 4 metodes katrā klasē (piem., `uzbrukt()`, `weakness()`, `overcharge()`, `speedBoost()`)
 - [x] Nodrošināt polimorfismu un abstraktās metodes īstenošanu
 - [x] Iespēja izveidot jaunu Pokémonu (Elektriskais / Ūdens)
 - [x] Metožu izsaukšana izvēlētam Pokémonam
-- [ ] Kauju rīkošana starp Pokémoniem (noteikt uzvarētāju loģiku)
+- [x] Kauju rīkošana starp Pokémoniem (noteikt uzvarētāju loģiku)
 - [x] Kļūdu un nepareizas datu ievades pārvaldība
-- [x] (Papildus) Lietotāja grafiskais interfeiss (formas, pogas, skaitītāji)
