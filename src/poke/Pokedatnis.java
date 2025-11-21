@@ -519,6 +519,12 @@ public class Pokedatnis {
 						45,
 						63,
 						95));
+				oppo.add(new ElektriskaisP(
+						"Electric",
+						"Elekid",
+						45,
+						63,
+						95));
 			kust.setUndecorated(true);
 			kust.setLocation(182, 159);
 			kust.setSize(751, 565);
@@ -605,7 +611,20 @@ public class Pokedatnis {
 		/*back.setOpaque(false);
 	    back.setContentAreaFilled(false);
 	    back.setBorderPainted(false);*/
-		
+		Random rand = new Random();
+		String []izvele = {"Squirtle112.png", "Elekid1.png","Int.png"};
+		String png;
+		if(iespeja == -1) {
+			png = izvele[rand.nextInt(izvele.length)];
+		}else {
+			png = nodots;
+		}
+		back.addActionListener(e -> {
+			logs.removeAll();
+			logs.revalidate();
+			logs.repaint();
+			triggerRandomPanel(png, "");
+		});
 		if(poki.size()>0)
 		if(fighting) {
 			
@@ -696,15 +715,6 @@ public class Pokedatnis {
 			}
 			iespeja=-1;
         }else {
-			Random rand = new Random();
-			String []izvele = {"Squirtle112.png", "Elekid1.png","Int.png"};
-			String png;
-			
-			if(iespeja == -1) {
-				png = izvele[rand.nextInt(izvele.length)];
-			}else {
-				png = nodots;
-			}
 		    
 			JLabel backg = new JLabel(new ImageIcon("bildes/opcijas.png"));
 			backg.setSize(751, 565);
@@ -864,12 +874,6 @@ public class Pokedatnis {
 				}
 				triggerRandomPanel(png,"");
 		    });
-		    back.addActionListener(e -> {
-				logs.removeAll();
-		    	logs.revalidate();
-				logs.repaint();
-				triggerRandomPanel(png,null);
-			});
 		}
 		
 		
