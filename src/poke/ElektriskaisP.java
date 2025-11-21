@@ -19,10 +19,9 @@ public class ElektriskaisP extends Pokemons {
         txt=(opponent.getVards() + " loses " + damage + " HP! Remaining HP: " + opponent.getHP());
 		return txt;
     }
-
     @Override
     public void weakness() {
-        System.out.println(this.getVards()+ " is weak to Ground-type attacks!");
+    	String weaknessType = "Earth-type attacks";
     }
 
     public String getElements() {
@@ -47,8 +46,5 @@ public class ElektriskaisP extends Pokemons {
 
     public void setOvercharge(String overcharge) {
         this.overcharge = overcharge;
-    }
-
-
-
+    }	
 }
