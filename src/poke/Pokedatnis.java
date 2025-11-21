@@ -32,13 +32,13 @@ public class Pokedatnis {
 	public static JFrame kust = new JFrame();
 	static boolean reize = true;
 	private static int []PBsk= {5};
-	private static int []MBsk= {2};
-	private static int []UBsk= {100};
+	private static int []MBsk= {3};
+	private static int []UBsk= {200};
 	private static JLabel PokeballSk = new JLabel();
 	private static JLabel MediumballSk = new JLabel();
 	private static JLabel UltraballSk = new JLabel();
 	
-	public static String[] name = {"Squirtle", "Wartortle", "Blastoise", "Lickitung", "Lickylicky", "Elekid", "Elecabuzz", "Electivire"};
+	public static String[] name = {"Squirtle", "Wartortle", "Blastoise", "Lickitung", "Lickylicky", "Elekid", "Electabuzz", "Electivire"};
 	public static String[] hp = {"44","59","79","90","110","45","65","75"};
 	public static String[] atk = {"48","63","83","55","85","63","83","123"};
 	public static String[] spd = {"43","58","78","30","50","95","105","95"};
@@ -520,8 +520,8 @@ public class Pokedatnis {
 						63,
 						95));
 				oppo.add(new ElektriskaisP(
-						"Electric",
-						"Elekid",
+						"Intars",
+						"Intars",
 						45,
 						63,
 						95));
@@ -627,8 +627,7 @@ public class Pokedatnis {
 		});
 		if(poki.size()>0)
 		if(fighting) {
-			
-			JLabel tavs = pokedex("Squirtle.png");
+			JLabel tavs = pokedex(((Pokemons)poki.get(0)).getVards()+"112.png");
 			tavs.setSize(200, 200);
 			tavs.setLocation(10,200);
 			
@@ -652,9 +651,9 @@ public class Pokedatnis {
 			 JButton atak = new JButton();
 				 atak.setSize(140,38);
 				 atak.setLocation(305, 210);
-				 /*atak.setOpaque(false);
+				 atak.setOpaque(false);
 				 atak.setContentAreaFilled(false);
-				 atak.setBorderPainted(false);*/
+				 atak.setBorderPainted(false);
 		 	JButton defe = new JButton();
 		 	defe.setSize(140,38);
 		 	defe.setLocation(305, 260);
@@ -670,6 +669,7 @@ public class Pokedatnis {
 				scene.remove(fopc);
 				scene.revalidate();
 				scene.repaint();
+				
 				
 			});	
 			//triggerRandomPanel(nodots,"");
@@ -745,9 +745,9 @@ public class Pokedatnis {
 		    fight.setBorderPainted(false);
 		   
 		    
-		    JButton secret = new JButton();
+		    /*JButton secret = new JButton();
 		    secret.setSize(109,38);
-		    secret.setLocation(409, 487);
+		    secret.setLocation(409, 487);*/
 		    
 		    
 		    JLabel bilde = pokedex(png);
@@ -763,7 +763,7 @@ public class Pokedatnis {
 		    main.revalidate();
 	        main.repaint();
 		    
-		    logs.add(secret);
+		    //logs.add(secret);
 	        logs.add(begt);
 		    logs.add(kert);
 		    logs.add(fight);
