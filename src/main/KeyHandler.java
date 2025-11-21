@@ -8,7 +8,7 @@ import poke.Pokedatnis;
 
 public class KeyHandler implements KeyListener {
 	private Random random = new Random();
-	private final int POPUP_CHANCE = 10;
+	private final int POPUP_CHANCE = 100;
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
 	
 	@Override

@@ -26,6 +26,7 @@ import main.GamePanel;
 /*	NAV PIEVINOTS CATCH OPCIJA, VAJAG SALABOT POKEDEX, FIGHT, STORAGE(ARRAYLIST UN ATTELI)*/
 public class Pokedatnis {
 	public static ArrayList<Object> poki = new ArrayList<>();
+	public static ArrayList<Object> oppo = new ArrayList<>();
 	private static JFrame main = new JFrame();
 	public static GamePanel  gamePanel = new GamePanel();
 	public static JFrame kust = new JFrame();
@@ -36,6 +37,24 @@ public class Pokedatnis {
 	private static JLabel PokeballSk = new JLabel();
 	private static JLabel MediumballSk = new JLabel();
 	private static JLabel UltraballSk = new JLabel();
+	
+	public static String[] name = {"Squirtle", "Wartortle", "Blastoise", "Lickitung", "Lickylicky", "Elekid", "Elecabuzz", "Electivire"};
+	public static String[] hp = {"44","59","79","90","110","45","65","75"};
+	public static String[] atk = {"48","63","83","55","85","63","83","123"};
+	public static String[] spd = {"43","58","78","30","50","95","105","95"};
+	public static String[] pokemoni = {"Squirtle1.gif", "wartortle21.gif", "Blastoise12.gif", "Lick1.gif", "lickylicky.gif", "elekid.gif", "electabuzz.gif", "electivire.gif"};
+	public static String[] type = {"Sqrt.png","Sqrt.png","Sqrt.png", "Lck.png", "Lck.png", "ele.png", "ele.png", "ele.png"};
+	public static String[] info = {
+			"After birth, its back swells and hardens into a shell. It sprays a potent foam from its mouth."
+			,"Wartortle’s long, furry tail is a symbol of longevity, so this Pokémon is quite popular among older people."
+			,"It deliberately increases its body weight so it can withstand the recoil of the water jets it fires."
+			,"If this Pokémon’s sticky saliva gets on you and you don’t clean it off, an intense itch will set in. The itch won’t go away, either."
+			,"Lickilicky’s strange tongue can stretch to many times the length of its body. No one has figured out how Lickilicky’s tongue can stretch so far."
+			,"It loves violent thunder. The space between its horns flickers bluish white when it is charging energy."
+			,"Its body constantly discharges electricity. Getting close to it will make your hair stand on end."
+			,"When it gets excited, it thumps its chest. With every thud, thunder roars and electric sparks shower all around."
+	};
+	
 	static JLabel pokedex(String txt) {
 		ImageIcon poke = new ImageIcon("bildes/"+txt);
 		JLabel bilde= new JLabel(poke);
@@ -101,22 +120,7 @@ public class Pokedatnis {
 		Pokedex.setBorderPainted(false);
 		main.add(Pokedex);
 		
-		String[] name = {"Squirtle", "Wartortle", "Blastoise", "Lickitung", "Lickylicky", "Elekid", "Elecabuzz", "Electivire"};
-		String[] hp = {"44","59","79","90","110","45","65","75"};
-		String[] atk = {"48","63","83","55","85","63","83","123"};
-		String[] spd = {"43","58","78","30","50","95","105","95"};
-		String[] pokemoni = {"Squirtle1.gif", "wartortle21.gif", "Blastoise12.gif", "Lick1.gif", "lickylicky.gif", "elekid.gif", "electabuzz.gif", "electivire.gif"};
-		String[] type = {"Sqrt.png","Sqrt.png","Sqrt.png", "Lck.png", "Lck.png", "ele.png", "ele.png", "ele.png"};
-		String[] info = {
-				"After birth, its back swells and hardens into a shell. It sprays a potent foam from its mouth."
-				,"Wartortle’s long, furry tail is a symbol of longevity, so this Pokémon is quite popular among older people."
-				,"It deliberately increases its body weight so it can withstand the recoil of the water jets it fires."
-				,"If this Pokémon’s sticky saliva gets on you and you don’t clean it off, an intense itch will set in. The itch won’t go away, either."
-				,"Lickilicky’s strange tongue can stretch to many times the length of its body. No one has figured out how Lickilicky’s tongue can stretch so far."
-				,"It loves violent thunder. The space between its horns flickers bluish white when it is charging energy."
-				,"Its body constantly discharges electricity. Getting close to it will make your hair stand on end."
-				,"When it gets excited, it thumps its chest. With every thud, thunder roars and electric sparks shower all around."
-		};
+		
 		
 		
 		//UNFINISHED
@@ -503,6 +507,18 @@ public class Pokedatnis {
 			
 			
 			if(reize) {
+				oppo.add(new UdensP(
+						"Water",
+						"Squirtle",
+						44,
+						48,
+						43));
+				oppo.add(new ElektriskaisP(
+						"Electric",
+						"Elekid",
+						45,
+						63,
+						95));
 			kust.setUndecorated(true);
 			kust.setLocation(182, 159);
 			kust.setSize(751, 565);
@@ -589,9 +605,28 @@ public class Pokedatnis {
 		/*back.setOpaque(false);
 	    back.setContentAreaFilled(false);
 	    back.setBorderPainted(false);*/
+		
+		if(poki.size()>0)
 		if(fighting) {
+			
+			JLabel tavs = pokedex("Squirtle.png");
+			tavs.setSize(200, 200);
+			tavs.setLocation(10,200);
+			
+			JLabel pret = pokedex(nodots);
+			if(nodots == "Int.png") {
+				pret.setSize(200, 400);
+				pret.setLocation(585,212);
+		    }else {
+		    	pret.setSize(200, 200);
+			    pret.setLocation(540,200);
+		    }
+			
 			JLabel scene = new JLabel(new ImageIcon("bildes/ekra.png"));
 			scene.setSize(751, 560);
+			scene.add(pret);
+			scene.add(tavs);
+			
 			logs.add(scene);
 			JLabel fopc = new JLabel(new ImageIcon("bildes/fight.png"));
 			fopc.setSize(751, 560);
@@ -606,18 +641,18 @@ public class Pokedatnis {
 		 	defe.setLocation(305, 260);
 		 	defe.setOpaque(false);
 			defe.setContentAreaFilled(false);
-			/*defe.setBorderPainted(false);
-		 	JButton kert = new JButton();
-			    kert.setSize(109,38);
-			    kert.setLocation(530,450);
-			    kert.setOpaque(false);
-			    kert.setContentAreaFilled(false);
-			    kert.setBorderPainted(false);*/
+			atak.setBorderPainted(false);
+			
 			fopc.add(atak);
 			fopc.add(defe);
+			scene.add(fopc)	;
 			
-			
-			scene.add(fopc)	;	
+			atak.addActionListener(e -> {
+				scene.remove(fopc);
+				scene.revalidate();
+				scene.repaint();
+				
+			});	
 			//triggerRandomPanel(nodots,"");
 		}
 		if(iespeja==0) {
@@ -651,7 +686,7 @@ public class Pokedatnis {
 						43));
 				break;
 			case "Elekid1.png":
-				poki.add(new UdensP(
+				poki.add(new ElektriskaisP(
 						"Electric",
 						"Elekid",
 						45,
@@ -829,14 +864,15 @@ public class Pokedatnis {
 				}
 				triggerRandomPanel(png,"");
 		    });
+		    back.addActionListener(e -> {
+				logs.removeAll();
+		    	logs.revalidate();
+				logs.repaint();
+				triggerRandomPanel(png,null);
+			});
 		}
 		
+		
 	}
-	/*static void timer(int n){
-        try {
-            Thread.sleep(n);
-        }catch (Exception e){
-            
-        }
-   }*/
+	
 }

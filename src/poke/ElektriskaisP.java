@@ -7,21 +7,23 @@ public class ElektriskaisP extends Pokemons {
         this.Eelements = Eelements;
     }
 
-    /*@Override
-    public void attack(Pokemons opponent) {
-        int damage = this.attackPower + 5; 
-        System.out.println(name + " uses static electricity against " + opponent.getVards() + "!");
+    @Override
+    public String uzbrukt(Pokemons opponent) {
+    	String txt;
+        int damage = this.getATK()+ 7; 
+        txt = (this.getVards() + " uses static electricity against " + opponent.getVards() + "!");
+        int hploss = opponent.getHP() - damage;
+        opponent.setHP(hploss);
+        if (opponent.getHP() < 0) opponent.setHP(0);
 
-        opponent.health -= damage;
-        if (opponent.health < 0) opponent.health = 0;
-
-        System.out.println(opponent.getVards() + " loses " + damage + " HP! Remaining HP: " + opponent.getHP());
+        txt=(opponent.getVards() + " loses " + damage + " HP! Remaining HP: " + opponent.getHP());
+		return txt;
     }
 
     @Override
     public void weakness() {
-        System.out.println(name + " is weak to Ground-type attacks!");
-    }*/
+        System.out.println(this.getVards()+ " is weak to Ground-type attacks!");
+    }
 
     public String getElements() {
         return Eelements;
@@ -47,10 +49,6 @@ public class ElektriskaisP extends Pokemons {
         this.overcharge = overcharge;
     }
 
-	@Override
-	public void uzbrukt(Pokemons opponent) {
-		// TODO Auto-generated method stub
-		
-	}
+
 
 }
