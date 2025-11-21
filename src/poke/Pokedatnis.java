@@ -31,9 +31,10 @@ public class Pokedatnis {
 	public static GamePanel  gamePanel = new GamePanel();
 	public static JFrame kust = new JFrame();
 	static boolean reize = true;
-	private static int []PBsk= {5};
-	private static int []MBsk= {3};
-	private static int []UBsk= {200};
+	private static int []PBsk= {0};
+	private static int []MBsk= {0};
+	private static int []UBsk= {0};
+	private static int[] skaits = {0};
 	private static JLabel PokeballSk = new JLabel();
 	private static JLabel MediumballSk = new JLabel();
 	private static JLabel UltraballSk = new JLabel();
@@ -63,6 +64,7 @@ public class Pokedatnis {
 	
 	public static void main(String[] args) throws UnsupportedAudioFileException, IOException, LineUnavailableException{
 		start();
+		
 		main.setLocation(150, 50);
 		main.setSize(1244, 700);
 		main.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -242,7 +244,7 @@ public class Pokedatnis {
 						b="s.png";
 						break;
 					case "Elekid":
-						b="e.png";
+						b="a.png";
 						break;
 					}
 					JLabel pirm = pokedex(b);
@@ -271,11 +273,11 @@ public class Pokedatnis {
 			panel.revalidate();
 			panel.repaint();
 			
+			
 			ImageIcon inf = new ImageIcon("bildes/Inf.png");
 			JLabel INF = new JLabel(inf);
 			INF.setSize(751, 560);
 			panel.add(INF);
-			
 			
 			JButton nak = new JButton();
 			nak.setSize(50, 30);
@@ -285,7 +287,7 @@ public class Pokedatnis {
 			nak.setBorderPainted(false);
 			main.add(nak);
 			
-			int[] skaits = {0};
+			
 			JLabel pirmais = pokedex(type[skaits[0]]);
 			pirmais.setSize(260, 167);
 			Pokemon.add(pirmais);
@@ -355,7 +357,7 @@ public class Pokedatnis {
 				INF.removeAll();
 				INF.revalidate();
 				INF.repaint();
-				
+
 				skaits[0]++;
 				if (skaits[0]>pokemoni.length-1) {
 					skaits[0]=0;
@@ -564,30 +566,54 @@ public class Pokedatnis {
 		});
 		
 	}
-	private static boolean playing = false;
+	private static boolean isMainTrack = true;
+	
 	static Clip clip;
-	 public static void start() throws MalformedURLException, 
+	public static void start() throws MalformedURLException, 
 	            UnsupportedAudioFileException, IOException, 
 	            LineUnavailableException {
-	        if (!playing) {
-	            File f = new File(".//sound//main.wav");
-	            AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
-	            clip = AudioSystem.getClip();
-	            clip.open(ais);
-	            clip.start();
-	            playing = true;
-	        } else {
-	            if (clip != null && clip.isRunning()) {
-	            	File f = new File(".//sound//fight.wav");
-	                clip.stop();
-	                AudioInputStream ais = AudioSystem.getAudioInputStream(f.toURI().toURL());
+		 
+			 if (clip != null && clip.isRunning()) {
+		            clip.stop();
+		            clip.close(); // Close the clip resources
+		          
+		        }
+			 String fileName = ".//sound//main.wav";
+			 if(poki.size()>0) {
+		        if (isMainTrack) {
+		             fileName = ".//sound//fight.wav";
+		            isMainTrack = false;
+		        
+		        } else {
+		            fileName = ".//sound//main.wav";
+		            isMainTrack = true;
+		        }
+			 }
+	
+		        File f = new File(fileName);
+		        
+		        try (AudioInputStream ais = AudioSystem.getAudioInputStream(f)) {
+		            
 		            clip = AudioSystem.getClip();
 		            clip.open(ais);
 		            clip.start();
-	                
-	            }
-	            playing = false;
-	        }
+		            
+		            clip.loop(Clip.LOOP_CONTINUOUSLY); 
+
+		        } 
+	    }
+	static Clip c;
+	public static void secr() throws MalformedURLException, 
+	            UnsupportedAudioFileException, IOException, 
+	            LineUnavailableException {
+				File f = new File(".//sound//secret.wav");
+		        clip.stop();
+		        AudioInputStream ais = AudioSystem.getAudioInputStream(f);
+	            c = AudioSystem.getClip();
+	            c.open(ais);
+	            c.start();
+	            
+		     
 	    }
 	private static int iespeja=-1;
 	private static boolean fighting = false;
@@ -627,7 +653,17 @@ public class Pokedatnis {
 		});
 		if(poki.size()>0)
 		if(fighting) {
-			JLabel tavs = pokedex(((Pokemons)poki.get(0)).getVards()+"112.png");
+			String tst =""+((Pokemons)poki.get(0)).getVards();
+			String a = "";
+			switch(tst) {
+			case "Squirtle":
+				a="Squirtle112.png";
+				break;
+			case "Elekid":
+				a="Elekid1.png";
+				break;
+			}
+			JLabel tavs = pokedex(a);
 			tavs.setSize(200, 200);
 			tavs.setLocation(10,200);
 			
@@ -712,6 +748,14 @@ public class Pokedatnis {
 						63,
 						95));
 				break;
+			case "Int.png":
+				poki.add(new ElektriskaisP(
+						"Electric",
+						"Intars",
+						45,
+						63,
+						95));
+				break;
 			}
 			iespeja=-1;
         }else {
@@ -745,11 +789,21 @@ public class Pokedatnis {
 		    fight.setBorderPainted(false);
 		   
 		    
-		    /*JButton secret = new JButton();
+		    JButton secret = new JButton();
 		    secret.setSize(109,38);
-		    secret.setLocation(409, 487);*/
+		    secret.setLocation(409, 487);
+		    secret.setOpaque(false);
+		    secret.setContentAreaFilled(false);
+		    secret.setBorderPainted(false);
 		    
-		    
+		    secret.addActionListener(e ->{
+		    	try {
+					secr();
+				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+		    });
 		    JLabel bilde = pokedex(png);
 		    if(png == "Int.png") {
 			    bilde.setSize(200, 400);
@@ -769,6 +823,7 @@ public class Pokedatnis {
 		    logs.add(fight);
 		    logs.add(bilde);
 		    logs.add(backg);
+		    logs.add(secret);
 		    kert.addActionListener(e -> {
 		    	logs.removeAll();
 		    	logs.revalidate();
@@ -812,11 +867,11 @@ public class Pokedatnis {
 					if(PBsk[0]>0) {
 						PBsk[0]-=1;
 						PokeballSk.setText(String.valueOf(PBsk[0]));
-						main.revalidate();
-						main.repaint();
-						iespeja=rand.nextInt(4);
+						iespeja=rand.nextInt(3);
 						logs.removeAll();
 				    	main.remove(logs);
+				    	main.revalidate();
+						main.repaint();
 				    	triggerRandomPanel(png, "pp");
 					}
 				});
@@ -825,14 +880,11 @@ public class Pokedatnis {
 					if(MBsk[0]>0) {
 						MBsk[0]-=1;
 						MediumballSk.setText(String.valueOf(MBsk[0]));
-						main.revalidate();
-						main.repaint();
-						iespeja=rand.nextInt(3);
-						main.revalidate();
-						main.repaint();
-						iespeja=rand.nextInt(4);
+						iespeja=rand.nextInt(2);
 						logs.removeAll();
 				    	main.remove(logs);
+				    	main.revalidate();
+						main.repaint();
 				    	triggerRandomPanel(png, "mm");
 					}
 				});
@@ -840,14 +892,11 @@ public class Pokedatnis {
 					if(UBsk[0]>0) {
 						UBsk[0]-=1;
 						UltraballSk.setText(String.valueOf(UBsk[0]));
-						main.revalidate();
-						main.repaint();
-						iespeja=rand.nextInt(2);
-						main.revalidate();
-						main.repaint();
-						iespeja=rand.nextInt(4);
+						iespeja=rand.nextInt(1);
 						logs.removeAll();
 				    	main.remove(logs);
+				    	main.revalidate();
+						main.repaint();
 				    	triggerRandomPanel(png, "uu");
 					}
 				});
