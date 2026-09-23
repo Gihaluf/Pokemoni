@@ -13,7 +13,7 @@ public class PokedexFilter {
                     String n = names[i];
                     if ("Seen".equals(filter)) return seen.contains(n);
                     if ("Caught".equals(filter)) return caught.contains(n);
-                    if ("Unseen".equals(filter)) return !seen.contains(n) && !caught.contains(n);
+                    if ("Unseen".equals(filter)) return !seen.contains(n);
                     return true;
                 })
                 .boxed()

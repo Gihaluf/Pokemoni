@@ -41,6 +41,9 @@ public class Pokedatnis {
 	private static JPanel mainPanel;
 	private static JPanel pokemonPanel;
 	static boolean reize = true;
+	private static BattleSystem activeBattle;
+	private static Pokemons activeBattleEnemy;
+	private static String activeBattleEnemyImage;
 	private static int []PBsk= {0};
 	private static int []MBsk= {0};
 	private static int []UBsk= {0};
@@ -650,6 +653,10 @@ public class Pokedatnis {
 	            main.remove(logs);
 	            main.revalidate();
 	            main.repaint();
+	            fighting = false;
+	            activeBattle = null;
+	            activeBattleEnemy = null;
+	            activeBattleEnemyImage = null;
 	            Pokedatnis.kust.setVisible(true);
 	        });
 		    
@@ -658,6 +665,9 @@ public class Pokedatnis {
 		    	logs.revalidate();
 				logs.repaint();
 				fighting = true;
+				activeBattle = null;
+				activeBattleEnemy = null;
+				activeBattleEnemyImage = null;
 				try {
 					start();
 				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
@@ -706,12 +716,7 @@ public class Pokedatnis {
 				details.setText("No Pokémon matched your filter.");
 				return;
 			}
-			if (index[0] >= filtered.size()) {
-				index[0] = 0;
-			}
-			if (index[0] < 0) {
-				index[0] = filtered.size() - 1;
-			}
+			index[0] = PokedexWindowState.normalizeIndex(index[0], filtered.size());
 			int dexIndex = filtered.get(index[0]);
 			skaits[0] = dexIndex;
 			String pokeName = name[dexIndex];
@@ -770,21 +775,30 @@ public class Pokedatnis {
 
 	private static void showBattleScreen(JPanel logs, String enemyImage) {
 		Pokemons playerMon = (Pokemons) poki.get(0);
-		Pokemons enemyMon = createEncounterPokemon(enemyImage);
+		if (activeBattle == null || activeBattleEnemy == null || !enemyImage.equals(activeBattleEnemyImage)) {
+			activeBattleEnemy = createEncounterPokemon(enemyImage);
+			activeBattleEnemyImage = enemyImage;
+			if (activeBattleEnemy == null) {
+				fighting = false;
+				return;
+			}
+			activeBattle = new BattleSystem(playerMon, activeBattleEnemy);
+		}
+		Pokemons enemyMon = activeBattleEnemy;
 		if (enemyMon == null) {
 			fighting = false;
 			return;
 		}
-
-		BattleSystem battle = new BattleSystem(playerMon, enemyMon);
 		JLabel scene = new JLabel(new ImageIcon("bildes/ekra.png"));
 		scene.setSize(751, 560);
 
 		String playerImage = getEncounterImageByName(playerMon.getVards());
-		JLabel yourMon = pokedex(playerImage);
-		yourMon.setSize(200, 200);
-		yourMon.setLocation(10, 200);
-		scene.add(yourMon);
+		if (playerImage != null) {
+			JLabel yourMon = pokedex(playerImage);
+			yourMon.setSize(200, 200);
+			yourMon.setLocation(10, 200);
+			scene.add(yourMon);
+		}
 
 		JLabel foe = pokedex(enemyImage);
 		foe.setSize("Int.png".equals(enemyImage) ? 200 : 200, "Int.png".equals(enemyImage) ? 400 : 200);
@@ -807,14 +821,17 @@ public class Pokedatnis {
 
 		java.awt.event.ActionListener action = e -> {
 			boolean useSpecial = e.getSource() == special;
-			BattleSystem.TurnResult result = battle.performTurn(useSpecial);
-			playerMon.setHP(battle.getPlayerHp());
-			enemyMon.setHP(battle.getEnemyHp());
+			BattleSystem.TurnResult result = activeBattle.performTurn(useSpecial);
+			playerMon.setHP(activeBattle.getPlayerHp());
+			enemyMon.setHP(activeBattle.getEnemyHp());
 			battleLog.setText(result.log);
 			if (result.finished) {
 				basic.setEnabled(false);
 				special.setEnabled(false);
 				fighting = false;
+				activeBattle = null;
+				activeBattleEnemy = null;
+				activeBattleEnemyImage = null;
 				if (result.playerWon) {
 					showStatusMessage("Battle won against " + enemyMon.getVards());
 				} else {
@@ -867,8 +884,8 @@ public class Pokedatnis {
 		case "Intars":
 			return "Int.png";
 		default:
-			showStatusMessage("Unknown sprite for " + pokemonName + ". Using default.");
-			return "Squirtle112.png";
+			showStatusMessage("Unknown sprite for " + pokemonName + ".");
+			return null;
 		}
 	}
 
