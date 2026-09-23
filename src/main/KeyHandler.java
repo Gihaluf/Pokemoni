@@ -9,7 +9,7 @@ import poke.Pokedatnis;
 public class KeyHandler implements KeyListener {
 	private Random random = new Random();
 	private final int POPUP_CHANCE = 100;
-	public boolean upPressed, downPressed, leftPressed, rightPressed;
+	public boolean upPressed, downPressed, leftPressed, rightPressed, interactPressed;
 	
 	@Override
 	public void keyTyped(KeyEvent e) {
@@ -59,6 +59,15 @@ public class KeyHandler implements KeyListener {
 		if(code == KeyEvent.VK_I) {
 			Pokedatnis.triggerRandomPanel("a", null);
 		}
+		if(code == KeyEvent.VK_E) {
+			interactPressed = true;
+		}
+		if(code == KeyEvent.VK_F5) {
+			Pokedatnis.saveProgress();
+		}
+		if(code == KeyEvent.VK_F9) {
+			Pokedatnis.loadProgress();
+		}
 	}
 
 	@Override
@@ -80,6 +89,9 @@ public class KeyHandler implements KeyListener {
 		
 		if(code == KeyEvent.VK_D) {
 			rightPressed = false;
+		}
+		if(code == KeyEvent.VK_E) {
+			interactPressed = false;
 		}
 		
 	}

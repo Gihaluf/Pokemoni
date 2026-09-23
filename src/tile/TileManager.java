@@ -84,39 +84,30 @@ public class TileManager {
 		public void loadMap(String filePath) {
 			
 			try {
-				
 				InputStream is = getClass().getResourceAsStream(filePath);
-				BufferedReader br = new BufferedReader(new InputStreamReader(is));
-				
-				int col = 0;
-				int row = 0;
-				
-				do{
-					
-					String line = br.readLine();
-					do{
-						
-						String numbers[] = line.split(" ");
-						
-						int num = Integer.parseInt(numbers[col]);
-						
-						mapTileNum[col][row] = num;
-						
-						col++;
-						
-					}while(col != gp.maxWorldCol);
-					
-					if (col == gp.maxWorldCol) {
-						col = 0;
+				if (is == null) {
+					throw new IOException("Map resource not found: " + filePath);
+				}
+				try (BufferedReader br = new BufferedReader(new InputStreamReader(is))) {
+					int row = 0;
+					while (row < gp.maxWorldRow) {
+						String line = br.readLine();
+						if (line == null) {
+							throw new IOException("Map is missing rows: " + filePath);
+						}
+						String numbers[] = line.trim().split("\\s+");
+						if (numbers.length != gp.maxWorldCol) {
+							throw new IOException("Map row " + row + " has invalid column count (expected " + gp.maxWorldCol + ", got " + numbers.length + ")");
+						}
+						for (int col = 0; col < gp.maxWorldCol; col++) {
+							int num = Integer.parseInt(numbers[col]);
+							mapTileNum[col][row] = num;
+						}
 						row++;
-						
 					}
-					
-				}while(col != gp.maxWorldCol && row != gp.maxWorldRow);
-				br.close();
-				
+				}
 			}catch(Exception e) {
-				
+				throw new IllegalStateException("Failed to load map from " + filePath + ": " + e.getMessage(), e);
 			}
 			
 		}

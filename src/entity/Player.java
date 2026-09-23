@@ -123,6 +123,7 @@ public class Player extends Entity {
 				spriteCounter = 0;
 			}
 		}
+		gp.worldInteractionManager.update(this, keyH);
 		
 	}
 
