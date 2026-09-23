@@ -108,7 +108,7 @@ public class TileManager {
 				}
 				br.close();
 			}catch(Exception e) {
-				throw new IllegalStateException("Failed to load map from " + filePath, e);
+				throw new IllegalStateException("Failed to load map from " + filePath + ": " + e.getMessage(), e);
 			}
 			
 		}
