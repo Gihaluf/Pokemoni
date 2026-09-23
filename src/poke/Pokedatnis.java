@@ -774,7 +774,7 @@ public class Pokedatnis {
 					String n = name[i];
 					if ("Seen".equals(filter)) return seenPokemon.contains(n);
 					if ("Caught".equals(filter)) return caughtPokemon.contains(n);
-					if ("Unseen".equals(filter)) return !seenPokemon.contains(n);
+					if ("Unseen".equals(filter)) return !seenPokemon.contains(n) && !caughtPokemon.contains(n);
 					return true;
 				})
 				.boxed()
@@ -953,6 +953,7 @@ public class Pokedatnis {
 			seenPokemon.addAll(state.seen);
 			caughtPokemon.clear();
 			caughtPokemon.addAll(state.caught);
+			seenPokemon.addAll(caughtPokemon);
 
 			poki.clear();
 			for (GameState.PokemonData data : state.captured) {
@@ -963,6 +964,9 @@ public class Pokedatnis {
 				}
 			}
 
+			gamePanel.player.worldX = state.playerWorldX;
+			gamePanel.player.worldY = state.playerWorldY;
+			gamePanel.worldInteractionManager.restoreItemState(state.worldItemCollected);
 			GamePanel activePanel = getActiveGamePanel();
 			activePanel.player.worldX = state.playerWorldX;
 			activePanel.player.worldY = state.playerWorldY;

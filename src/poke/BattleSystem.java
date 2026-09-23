@@ -57,11 +57,16 @@ public class BattleSystem {
 
     private final Battler player;
     private final Battler enemy;
-    private final Random random = new Random();
+    private final Random random;
 
     public BattleSystem(Pokemons playerPokemon, Pokemons enemyPokemon) {
+        this(playerPokemon, enemyPokemon, new Random());
+    }
+
+    public BattleSystem(Pokemons playerPokemon, Pokemons enemyPokemon, Random random) {
         this.player = new Battler(playerPokemon);
         this.enemy = new Battler(enemyPokemon);
+        this.random = random;
     }
 
     public Skill getBasicSkill(Pokemons pokemon) {
@@ -98,6 +103,10 @@ public class BattleSystem {
         }
 
         if (player.hp <= 0 || enemy.hp <= 0) {
+            if (player.hp <= 0 && enemy.hp <= 0) {
+                log.append("\nBoth Pokémon fainted. It's a draw!");
+                return new TurnResult(log.toString(), true, false);
+            }
             boolean playerWon = enemy.hp <= 0 && player.hp > 0;
             if (playerWon) {
                 log.append("\nYou won the battle!");

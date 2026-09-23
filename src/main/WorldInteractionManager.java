@@ -17,7 +17,11 @@ public class WorldInteractionManager {
     private boolean portalLatch;
 
     public void update(Player player, KeyHandler keyHandler) {
-        Rectangle playerArea = new Rectangle(player.worldX, player.worldY, 32, 32);
+        Rectangle playerArea = new Rectangle(
+                player.worldX + player.solidArea.x,
+                player.worldY + player.solidArea.y,
+                player.solidArea.width,
+                player.solidArea.height);
 
         if (keyHandler.interactPressed && !interactionLatch) {
             interactionLatch = true;
