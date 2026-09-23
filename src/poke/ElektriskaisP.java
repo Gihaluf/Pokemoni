@@ -20,8 +20,8 @@ public class ElektriskaisP extends Pokemons {
 		return txt;
     }
     @Override
-    public void weakness() {
-    	System.out.println(getVards() + " is weak against Earth-type attacks.");
+    public String weakness() {
+    	return getVards() + " is weak against Earth-type attacks.";
     }
 
     public String getElements() {

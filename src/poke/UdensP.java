@@ -12,7 +12,7 @@ public class UdensP extends Pokemons {
     public String uzbrukt(Pokemons opponent) {
     	String txt;
         int damage = this.getATK()+ 7; 
-        txt = (this.getVards() + " uses a water attack against " + opponent.getVards() + "!");
+        txt = (this.getVards() + " uses Hydro Pump against " + opponent.getVards() + "!");
         int hploss = opponent.getHP() - damage;
         opponent.setHP(hploss);
         if (opponent.getHP() < 0) opponent.setHP(0);
@@ -21,8 +21,8 @@ public class UdensP extends Pokemons {
 		return txt;
     }
     @Override
-    public void weakness() {
-    System.out.println(getVards() + " is weak against Electric and Earth-type attacks.");
+    public String weakness() {
+    return getVards() + " is weak against Electric and Earth-type attacks.";
     }
     
     public String getElements() {

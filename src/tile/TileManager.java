@@ -97,8 +97,8 @@ public class TileManager {
 						throw new IOException("Map is missing rows: " + filePath);
 					}
 					String numbers[] = line.trim().split("\\s+");
-					if (numbers.length < gp.maxWorldCol) {
-						throw new IOException("Map row has too few columns: " + filePath);
+					if (numbers.length != gp.maxWorldCol) {
+						throw new IOException("Map row has invalid column count: " + filePath);
 					}
 					for (int col = 0; col < gp.maxWorldCol; col++) {
 						int num = Integer.parseInt(numbers[col]);

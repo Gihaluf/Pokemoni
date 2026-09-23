@@ -54,8 +54,7 @@ public abstract class Pokemons {
 
     public abstract String uzbrukt(Pokemons opponent);
 
-    public void weakness() {
-        System.out.println(name + " has no specific weaknesses.");
-
+    public String weakness() {
+        return name + " has no specific weaknesses.";
     }
 }
