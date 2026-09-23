@@ -138,7 +138,10 @@ public class BattleSystem {
            .append(" and dealt ").append(damage)
            .append(" damage to ").append(defender.base.getVards()).append(".");
 
-        if (skill.inflict != StatusEffect.NONE && random.nextDouble() < skill.chance && defender.hp > 0) {
+        if (skill.inflict != StatusEffect.NONE
+                && defender.status == StatusEffect.NONE
+                && random.nextDouble() < skill.chance
+                && defender.hp > 0) {
             defender.status = skill.inflict;
             log.append(" ").append(defender.base.getVards())
                .append(" is now ").append(skill.inflict.name().toLowerCase()).append(".");

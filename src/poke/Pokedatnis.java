@@ -3,7 +3,6 @@ package poke;
 
 
 import java.awt.Font;
-import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -12,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
@@ -767,18 +765,7 @@ public class Pokedatnis {
 	}
 
 	private static List<Integer> getFilteredPokedexIndexes(String query, String filter) {
-		String q = query == null ? "" : query.trim().toLowerCase();
-		return java.util.stream.IntStream.range(0, name.length)
-				.filter(i -> q.isEmpty() || name[i].toLowerCase().contains(q))
-				.filter(i -> {
-					String n = name[i];
-					if ("Seen".equals(filter)) return seenPokemon.contains(n);
-					if ("Caught".equals(filter)) return caughtPokemon.contains(n);
-					if ("Unseen".equals(filter)) return !seenPokemon.contains(n) && !caughtPokemon.contains(n);
-					return true;
-				})
-				.boxed()
-				.collect(Collectors.toList());
+		return PokedexFilter.filterIndexes(name, query, filter, seenPokemon, caughtPokemon);
 	}
 
 	private static void showBattleScreen(JPanel logs, String enemyImage) {
@@ -821,6 +808,8 @@ public class Pokedatnis {
 		java.awt.event.ActionListener action = e -> {
 			boolean useSpecial = e.getSource() == special;
 			BattleSystem.TurnResult result = battle.performTurn(useSpecial);
+			playerMon.setHP(battle.getPlayerHp());
+			enemyMon.setHP(battle.getEnemyHp());
 			battleLog.setText(result.log);
 			if (result.finished) {
 				basic.setEnabled(false);
@@ -912,10 +901,9 @@ public class Pokedatnis {
 			state.pokedexIndex = skaits[0];
 			state.seen.addAll(seenPokemon);
 			state.caught.addAll(caughtPokemon);
-			GamePanel activePanel = getActiveGamePanel();
-			state.playerWorldX = activePanel.player.worldX;
-			state.playerWorldY = activePanel.player.worldY;
-			state.worldItemCollected = activePanel.worldInteractionManager.isItemCollected();
+			state.playerWorldX = gamePanel.player.worldX;
+			state.playerWorldY = gamePanel.player.worldY;
+			state.worldItemCollected = gamePanel.worldInteractionManager.isItemCollected();
 
 			for (Object o : poki) {
 				if (o instanceof Pokemons) {
@@ -967,25 +955,10 @@ public class Pokedatnis {
 			gamePanel.player.worldX = state.playerWorldX;
 			gamePanel.player.worldY = state.playerWorldY;
 			gamePanel.worldInteractionManager.restoreItemState(state.worldItemCollected);
-			GamePanel activePanel = getActiveGamePanel();
-			activePanel.player.worldX = state.playerWorldX;
-			activePanel.player.worldY = state.playerWorldY;
-			activePanel.worldInteractionManager.restoreItemState(state.worldItemCollected);
 			showStatusMessage("Progress loaded");
 		} catch (Exception e) {
 			showStatusMessage("Load failed: " + e.getMessage());
 		}
-	}
-
-	private static GamePanel getActiveGamePanel() {
-		if (kust != null) {
-			for (Component component : kust.getContentPane().getComponents()) {
-				if (component instanceof GamePanel) {
-					return (GamePanel) component;
-				}
-			}
-		}
-		return gamePanel;
 	}
 	
 }
