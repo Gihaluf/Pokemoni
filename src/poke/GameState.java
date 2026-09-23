@@ -27,4 +27,5 @@ public class GameState implements Serializable {
     public Set<String> caught = new HashSet<>();
     public int playerWorldX;
     public int playerWorldY;
+    public boolean worldItemCollected;
 }

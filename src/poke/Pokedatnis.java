@@ -3,6 +3,7 @@ package poke;
 
 
 import java.awt.Font;
+import java.awt.Component;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -27,6 +28,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import main.GamePanel;
 import ui.UIStateManager;
@@ -490,6 +493,7 @@ public class Pokedatnis {
 			}
 			if(!poki.isEmpty()) {
 				Pokemons latest = (Pokemons) poki.get(poki.size() - 1);
+				seenPokemon.add(latest.getVards());
 				caughtPokemon.add(latest.getVards());
 				showStatusMessage("Caught: " + latest.getVards());
 			}
@@ -673,6 +677,7 @@ public class Pokedatnis {
 		frame.setSize(700, 450);
 		frame.setLocation(220, 120);
 		frame.setLayout(null);
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
 		JTextField search = new JTextField();
 		search.setBounds(20, 20, 240, 28);
@@ -715,15 +720,34 @@ public class Pokedatnis {
 			String seenState = seenPokemon.contains(pokeName) ? "Seen" : "Unseen";
 			String caughtState = caughtPokemon.contains(pokeName) ? "Caught" : "Not caught";
 			details.setText(
-					"#" + (dexIndex + 1) + " " + pokeName + "\\n"
-					+ "HP: " + hp[dexIndex] + "  ATK: " + atk[dexIndex] + "  SPD: " + spd[dexIndex] + "\\n"
-					+ "Status: " + seenState + " / " + caughtState + "\\n\\n"
+					"#" + (dexIndex + 1) + " " + pokeName + "\n"
+					+ "HP: " + hp[dexIndex] + "  ATK: " + atk[dexIndex] + "  SPD: " + spd[dexIndex] + "\n"
+					+ "Status: " + seenState + " / " + caughtState + "\n\n"
 					+ info[dexIndex]);
 		};
 
 		search.addActionListener(e -> {
 			index[0] = 0;
 			render.run();
+		});
+		search.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				index[0] = 0;
+				render.run();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				index[0] = 0;
+				render.run();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				index[0] = 0;
+				render.run();
+			}
 		});
 		filter.addActionListener(e -> {
 			index[0] = 0;
@@ -839,10 +863,23 @@ public class Pokedatnis {
 			return "Squirtle112.png";
 		case "Wartortle":
 			return "WartortleEncounter.png";
+		case "Blastoise":
+			return "Blastoise12.gif";
+		case "Lickitung":
+			return "Lick1.gif";
+		case "Lickylicky":
+			return "lickylicky.gif";
 		case "Elekid":
 			return "Elekid1.png";
-		default:
+		case "Electabuzz":
+			return "electabuzz.gif";
+		case "Electivire":
+			return "electivire.gif";
+		case "Intars":
 			return "Int.png";
+		default:
+			showStatusMessage("Unknown sprite for " + pokemonName + ". Using default.");
+			return "Squirtle112.png";
 		}
 	}
 
@@ -875,14 +912,16 @@ public class Pokedatnis {
 			state.pokedexIndex = skaits[0];
 			state.seen.addAll(seenPokemon);
 			state.caught.addAll(caughtPokemon);
-			state.playerWorldX = gamePanel.player.worldX;
-			state.playerWorldY = gamePanel.player.worldY;
+			GamePanel activePanel = getActiveGamePanel();
+			state.playerWorldX = activePanel.player.worldX;
+			state.playerWorldY = activePanel.player.worldY;
+			state.worldItemCollected = activePanel.worldInteractionManager.isItemCollected();
 
 			for (Object o : poki) {
 				if (o instanceof Pokemons) {
 					Pokemons p = (Pokemons) o;
 					GameState.PokemonData data = new GameState.PokemonData();
-					data.type = (p instanceof UdensP) ? "water" : "electric";
+					data.type = p.getClass().getSimpleName();
 					data.name = p.getVards();
 					data.hp = p.getHP();
 					data.atk = p.getATK();
@@ -917,19 +956,32 @@ public class Pokedatnis {
 
 			poki.clear();
 			for (GameState.PokemonData data : state.captured) {
-				if ("water".equals(data.type)) {
+				if ("UdensP".equals(data.type)) {
 					poki.add(new UdensP("Water", data.name, data.hp, data.atk, data.spd));
-				} else {
+				} else if ("ElektriskaisP".equals(data.type)) {
 					poki.add(new ElektriskaisP("Electric", data.name, data.hp, data.atk, data.spd));
 				}
 			}
 
-			gamePanel.player.worldX = state.playerWorldX;
-			gamePanel.player.worldY = state.playerWorldY;
+			GamePanel activePanel = getActiveGamePanel();
+			activePanel.player.worldX = state.playerWorldX;
+			activePanel.player.worldY = state.playerWorldY;
+			activePanel.worldInteractionManager.restoreItemState(state.worldItemCollected);
 			showStatusMessage("Progress loaded");
 		} catch (Exception e) {
 			showStatusMessage("Load failed: " + e.getMessage());
 		}
+	}
+
+	private static GamePanel getActiveGamePanel() {
+		if (kust != null) {
+			for (Component component : kust.getContentPane().getComponents()) {
+				if (component instanceof GamePanel) {
+					return (GamePanel) component;
+				}
+			}
+		}
+		return gamePanel;
 	}
 	
 }
