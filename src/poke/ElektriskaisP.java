@@ -21,7 +21,7 @@ public class ElektriskaisP extends Pokemons {
     }
     @Override
     public void weakness() {
-    	String weaknessType = "Earth-type attacks";
+    	System.out.println(getVards() + " is weak against Earth-type attacks.");
     }
 
     public String getElements() {

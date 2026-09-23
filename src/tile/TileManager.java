@@ -84,39 +84,31 @@ public class TileManager {
 		public void loadMap(String filePath) {
 			
 			try {
-				
 				InputStream is = getClass().getResourceAsStream(filePath);
+				if (is == null) {
+					throw new IOException("Map resource not found: " + filePath);
+				}
 				BufferedReader br = new BufferedReader(new InputStreamReader(is));
 				
-				int col = 0;
 				int row = 0;
-				
-				do{
-					
+				while (row < gp.maxWorldRow) {
 					String line = br.readLine();
-					do{
-						
-						String numbers[] = line.split(" ");
-						
-						int num = Integer.parseInt(numbers[col]);
-						
-						mapTileNum[col][row] = num;
-						
-						col++;
-						
-					}while(col != gp.maxWorldCol);
-					
-					if (col == gp.maxWorldCol) {
-						col = 0;
-						row++;
-						
+					if (line == null) {
+						throw new IOException("Map is missing rows: " + filePath);
 					}
-					
-				}while(col != gp.maxWorldCol && row != gp.maxWorldRow);
+					String numbers[] = line.split(" ");
+					if (numbers.length < gp.maxWorldCol) {
+						throw new IOException("Map row has too few columns: " + filePath);
+					}
+					for (int col = 0; col < gp.maxWorldCol; col++) {
+						int num = Integer.parseInt(numbers[col]);
+						mapTileNum[col][row] = num;
+					}
+					row++;
+				}
 				br.close();
-				
 			}catch(Exception e) {
-				
+				throw new IllegalStateException("Failed to load map from " + filePath, e);
 			}
 			
 		}

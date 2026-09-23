@@ -241,6 +241,7 @@ public class Pokedatnis {
 					String nosaukums = ((Pokemons)poki.get(i-1)).getVards();
 					switch(nosaukums) {
 					case "Squirtle":
+					case "Wartortle":
 						b="s.png";
 						break;
 					case "Elekid":
@@ -638,7 +639,7 @@ public class Pokedatnis {
 	    back.setContentAreaFilled(false);
 	    back.setBorderPainted(false);*/
 		Random rand = new Random();
-		String []izvele = {"Squirtle112.png", "Elekid1.png","Int.png"};
+		String []izvele = {"Squirtle112.png", "WartortleEncounter.png", "Elekid1.png","Int.png"};
 		String png;
 		if(iespeja == -1) {
 			png = izvele[rand.nextInt(izvele.length)];
@@ -659,6 +660,9 @@ public class Pokedatnis {
 			case "Squirtle":
 				a="Squirtle112.png";
 				break;
+			case "Wartortle":
+				a="WartortleEncounter.png";
+				break;
 			case "Elekid":
 				a="Elekid1.png";
 				break;
@@ -668,7 +672,7 @@ public class Pokedatnis {
 			tavs.setLocation(10,200);
 			
 			JLabel pret = pokedex(nodots);
-			if(nodots == "Int.png") {
+			if("Int.png".equals(nodots)) {
 				pret.setSize(200, 400);
 				pret.setLocation(585,212);
 		    }else {
@@ -740,6 +744,14 @@ public class Pokedatnis {
 						48,
 						43));
 				break;
+			case "WartortleEncounter.png":
+				poki.add(new UdensP(
+						"Water",
+						"Wartortle",
+						59,
+						63,
+						58));
+				break;
 			case "Elekid1.png":
 				poki.add(new ElektriskaisP(
 						"Electric",
@@ -805,7 +817,7 @@ public class Pokedatnis {
 				}
 		    });
 		    JLabel bilde = pokedex(png);
-		    if(png == "Int.png") {
+		    if("Int.png".equals(png)) {
 			    bilde.setSize(200, 400);
 			    bilde.setLocation(250,0);
 		    }else {
