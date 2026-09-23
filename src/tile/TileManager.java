@@ -96,7 +96,7 @@ public class TileManager {
 					if (line == null) {
 						throw new IOException("Map is missing rows: " + filePath);
 					}
-					String numbers[] = line.split(" ");
+					String numbers[] = line.trim().split("\\s+");
 					if (numbers.length < gp.maxWorldCol) {
 						throw new IOException("Map row has too few columns: " + filePath);
 					}
