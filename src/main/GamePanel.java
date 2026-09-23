@@ -42,6 +42,7 @@ public class GamePanel extends JPanel implements Runnable  {
 	static Thread gameThread;
 	public CollisionChecker cChecker = new CollisionChecker(this);
 	public Player player = new Player(this,keyH);	
+	public WorldInteractionManager worldInteractionManager = new WorldInteractionManager();
 	
 	public GamePanel(){
 		
@@ -105,17 +106,16 @@ public class GamePanel extends JPanel implements Runnable  {
 		
 		super.paintComponent(g);
 		
-		Graphics g2 = (Graphics2D)g;
+		Graphics2D g2 = (Graphics2D) g;
 		
-		tileM.draw((Graphics2D) g2);
+		tileM.draw(g2);
 		
 		player.draw(g2);
+		worldInteractionManager.drawHints(g2, this);
 		
 		g2.dispose();
 	}
 
 }
-
-
 
 

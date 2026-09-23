@@ -7,22 +7,30 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
+import java.util.Set;
 
 import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
+import javax.swing.JComboBox;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.WindowConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import main.GamePanel;
+import ui.UIStateManager;
 /*	NAV PIEVINOTS CATCH OPCIJA, VAJAG SALABOT POKEDEX, FIGHT, STORAGE(ARRAYLIST UN ATTELI)*/
 public class Pokedatnis {
 	public static ArrayList<Object> poki = new ArrayList<>();
@@ -30,7 +38,12 @@ public class Pokedatnis {
 	private static JFrame main = new JFrame();
 	public static GamePanel  gamePanel = new GamePanel();
 	public static JFrame kust = new JFrame();
+	private static JPanel mainPanel;
+	private static JPanel pokemonPanel;
 	static boolean reize = true;
+	private static BattleSystem activeBattle;
+	private static Pokemons activeBattleEnemy;
+	private static String activeBattleEnemyImage;
 	private static int []PBsk= {0};
 	private static int []MBsk= {0};
 	private static int []UBsk= {0};
@@ -38,6 +51,9 @@ public class Pokedatnis {
 	private static JLabel PokeballSk = new JLabel();
 	private static JLabel MediumballSk = new JLabel();
 	private static JLabel UltraballSk = new JLabel();
+	private static JLabel statusMessage = new JLabel();
+	private static Set<String> seenPokemon = new HashSet<>();
+	private static Set<String> caughtPokemon = new HashSet<>();
 	
 	public static String[] name = {"Squirtle", "Wartortle", "Blastoise", "Lickitung", "Lickylicky", "Elekid", "Electabuzz", "Electivire"};
 	public static String[] hp = {"44","59","79","90","110","45","65","75"};
@@ -81,6 +97,7 @@ public class Pokedatnis {
 		panel.setLocation(32, 109);
 		panel.setOpaque(false);
 		main.add(panel);
+		mainPanel = panel;
 		
 		
 		ImageIcon gif = new ImageIcon("bildes/Startup.gif");
@@ -94,6 +111,7 @@ public class Pokedatnis {
 		Pokemon.setLocation(915, 90);
 		Pokemon.setOpaque(false);
 		main.add(Pokemon);
+		pokemonPanel = Pokemon;
 		
 		//DONE
 		JButton Stop = new JButton();
@@ -150,6 +168,10 @@ public class Pokedatnis {
 		main.add(PokeballSk);
 		main.add(MediumballSk);
 		main.add(UltraballSk);
+		
+		statusMessage.setSize(450, 20);
+		statusMessage.setLocation(34, 84);
+		main.add(statusMessage);
 			
 		//DONE
 		JButton Shop = new JButton();
@@ -171,6 +193,7 @@ public class Pokedatnis {
 		buyPB.addActionListener(ev -> {
 			PBsk[0]++;
 			PokeballSk.setText(String.valueOf(PBsk[0]));
+			saveProgress();
 		});
 		JButton buyMB = new JButton();
 		buyMB.setSize(170, 160);
@@ -183,6 +206,7 @@ public class Pokedatnis {
 		buyMB.addActionListener(ev -> {
 			MBsk[0]++;
 			MediumballSk.setText(String.valueOf(MBsk[0]));
+			saveProgress();
 		});
 		JButton buyUB = new JButton();
 		buyUB.setSize(170, 160);
@@ -195,6 +219,7 @@ public class Pokedatnis {
 		buyUB.addActionListener(ev -> {
 			UBsk[0]++;
 			UltraballSk.setText(String.valueOf(UBsk[0]));
+			saveProgress();
 		});
 		
 		//DONE
@@ -206,28 +231,20 @@ public class Pokedatnis {
 		storage.setBorderPainted(false);
 		main.add(storage);
 		
+		loadProgress();
 		main.setVisible(true);
 		//action listeners
 		
 		Home.addActionListener(e -> {
 			
-			panel.removeAll();
-			panel.add(Sgif);
-			panel.revalidate();
-			panel.repaint();
-			Pokemon.removeAll();
-			Pokemon.revalidate();
-			Pokemon.repaint();
+			UIStateManager.setPanelContent(panel, Sgif);
+			UIStateManager.clearAndRefresh(Pokemon);
 			
 		});
 		
 		storage.addActionListener(e ->{
-			Pokemon.removeAll();
-			Pokemon.revalidate();
-			Pokemon.repaint();
-			panel.removeAll();
-			panel.revalidate();
-			panel.repaint();
+			UIStateManager.clearAndRefresh(Pokemon);
+			UIStateManager.clearAndRefresh(panel);
 			
 			ImageIcon inv = new ImageIcon("bildes/Inventoyy.png");
 			JLabel INV = new JLabel(inv);
@@ -241,6 +258,7 @@ public class Pokedatnis {
 					String nosaukums = ((Pokemons)poki.get(i-1)).getVards();
 					switch(nosaukums) {
 					case "Squirtle":
+					case "Wartortle":
 						b="s.png";
 						break;
 					case "Elekid":
@@ -259,244 +277,11 @@ public class Pokedatnis {
 					INV.add(pirm);
 				}
 			}
-			panel.add(INV); 
-			panel.revalidate();
-			panel.repaint();
+			UIStateManager.setPanelContent(panel, INV);
 		});
 		
 		
-		Pokedex.addActionListener(e -> {
-			Pokemon.removeAll();
-			Pokemon.revalidate();
-			Pokemon.repaint();
-			panel.removeAll();
-			panel.revalidate();
-			panel.repaint();
-			
-			
-			ImageIcon inf = new ImageIcon("bildes/Inf.png");
-			JLabel INF = new JLabel(inf);
-			INF.setSize(751, 560);
-			panel.add(INF);
-			
-			JButton nak = new JButton();
-			nak.setSize(50, 30);
-			nak.setLocation(1030, 257);
-			nak.setOpaque(false);
-			nak.setContentAreaFilled(false);
-			nak.setBorderPainted(false);
-			main.add(nak);
-			
-			
-			JLabel pirmais = pokedex(type[skaits[0]]);
-			pirmais.setSize(260, 167);
-			Pokemon.add(pirmais);
-			
-			JTextArea pirmaisa = new JTextArea(info[skaits[0]]);
-			pirmaisa.setLineWrap(true);
-			pirmaisa.setWrapStyleWord(true);
-			pirmaisa.setOpaque(false);
-			pirmaisa.setSize(700, 200);
-			pirmaisa.setFont(new Font("Monospaced", Font.BOLD, 16));
-			pirmaisa.setLocation(30,470);
-			
-			
-			JLabel bildit = pokedex(pokemoni[skaits[0]]);
-			bildit.setLocation(267,113);
-			bildit.setSize(240, 216);
-			
-			
-			JTextArea NAME = new JTextArea(name[skaits[0]]);
-			NAME.setLineWrap(true);
-			NAME.setWrapStyleWord(true);
-			NAME.setOpaque(false);
-			NAME.setSize(200, 50);
-			NAME.setFont(new Font("Monospaced", Font.BOLD, 20));
-			NAME.setLocation(115,378);
-			
-			JTextArea HP = new JTextArea(hp[skaits[0]]);
-			HP.setLineWrap(true);
-			HP.setWrapStyleWord(true);
-			HP.setOpaque(false);
-			HP.setSize(200, 50);
-			HP.setFont(new Font("Monospaced", Font.BOLD, 20));
-			HP.setLocation(70,399);
-			
-			JTextArea ATK = new JTextArea(atk[skaits[0]]);
-			ATK.setLineWrap(true);
-			ATK.setWrapStyleWord(true);
-			ATK.setOpaque(false);
-			ATK.setSize(200, 50);
-			ATK.setFont(new Font("Monospaced", Font.BOLD, 20));
-			ATK.setLocation(90,420);
-			
-			JTextArea SPD = new JTextArea(spd[skaits[0]]);
-			SPD.setLineWrap(true);
-			SPD.setWrapStyleWord(true);
-			SPD.setOpaque(false);
-			SPD.setSize(200, 50);
-			SPD.setFont(new Font("Monospaced", Font.BOLD, 20));
-			SPD.setLocation(90,445);
-			
-			
-			INF.add(pirmaisa);
-			INF.add(bildit);
-			INF.add(bildit);
-			INF.add(NAME);
-			INF.add(HP);
-			INF.add(ATK);
-			INF.add(SPD);
-			
-			panel.revalidate();
-			panel.repaint();
-			
-			nak.addActionListener(ev -> {
-				Pokemon.removeAll();
-				Pokemon.revalidate();
-				Pokemon.repaint();
-				INF.removeAll();
-				INF.revalidate();
-				INF.repaint();
-
-				skaits[0]++;
-				if (skaits[0]>pokemoni.length-1) {
-					skaits[0]=0;
-				}
-				JTextArea apraksts = new JTextArea(info[skaits[0]]);
-				apraksts.setLineWrap(true);
-				apraksts.setWrapStyleWord(true);
-				apraksts.setOpaque(false);
-				apraksts.setSize(700, 200);
-				apraksts.setFont(new Font("Monospaced", Font.BOLD, 16));
-				apraksts.setLocation(30,470);
-				
-				//250x220
-				JLabel bildite = pokedex(pokemoni[skaits[0]]);
-				bildite.setLocation(267,113);
-				bildite.setSize(240, 216);
-				
-				JLabel tips = pokedex(type[skaits[0]]);
-				tips.setSize(260, 167);
-				Pokemon.add(tips);
-				
-				JTextArea N = new JTextArea(name[skaits[0]]);
-				N.setLineWrap(true);
-				N.setWrapStyleWord(true);
-				N.setOpaque(false);
-				N.setSize(200, 50);
-				N.setFont(new Font("Monospaced", Font.BOLD, 20));
-				N.setLocation(115,378);
-				
-				JTextArea H = new JTextArea(hp[skaits[0]]);
-				H.setLineWrap(true);
-				H.setWrapStyleWord(true);
-				H.setOpaque(false);
-				H.setSize(200, 50);
-				H.setFont(new Font("Monospaced", Font.BOLD, 20));
-				H.setLocation(70,399);
-				
-				JTextArea A = new JTextArea(atk[skaits[0]]);
-				A.setLineWrap(true);
-				A.setWrapStyleWord(true);
-				A.setOpaque(false);
-				A.setSize(200, 50);
-				A.setFont(new Font("Monospaced", Font.BOLD, 20));
-				A.setLocation(90,420);
-				
-				JTextArea S = new JTextArea(spd[skaits[0]]);
-				S.setLineWrap(true);
-				S.setWrapStyleWord(true);
-				S.setOpaque(false);
-				S.setSize(200, 50);
-				S.setFont(new Font("Monospaced", Font.BOLD, 20));
-				S.setLocation(90,445);
-				
-				INF.add(N);
-				INF.add(H);
-				INF.add(A);
-				INF.add(S);
-				INF.add(apraksts);
-				INF.add(bildite);
-				Pokemon.add(tips);
-				
-			});
-			JButton iepr = new JButton();
-			iepr.setSize(50, 30);
-			iepr.setLocation(980, 257);
-			iepr.setOpaque(false);
-			iepr.setContentAreaFilled(false);
-			iepr.setBorderPainted(false);
-			main.add(iepr);
-			
-			iepr.addActionListener(ev -> {
-				skaits[0]--;
-				if (skaits[0]<0) {
-					skaits[0]=pokemoni.length-1;
-				}
-				Pokemon.removeAll();
-				Pokemon.revalidate();
-				Pokemon.repaint();
-				INF.removeAll();
-				INF.revalidate();
-				INF.repaint();
-				
-				JTextArea apraksts = new JTextArea(info[skaits[0]]);
-				apraksts.setLineWrap(true);
-				apraksts.setWrapStyleWord(true);
-				apraksts.setOpaque(false);
-				apraksts.setSize(700, 200);
-				apraksts.setFont(new Font("Monospaced", Font.BOLD, 16));
-				apraksts.setLocation(30,470);
-				
-				
-				JLabel bildite = pokedex(pokemoni[skaits[0]]);
-				bildite.setLocation(267,113);
-				bildite.setSize(240, 216);
-				
-				JLabel tips = pokedex(type[skaits[0]]);
-				tips.setSize(260, 167);
-				Pokemon.add(tips);
-				JTextArea N = new JTextArea(name[skaits[0]]);
-				N.setLineWrap(true);
-				N.setWrapStyleWord(true);
-				N.setOpaque(false);
-				N.setSize(200, 50);
-				N.setFont(new Font("Monospaced", Font.BOLD, 20));
-				N.setLocation(115,378);
-				
-				JTextArea H = new JTextArea(hp[skaits[0]]);
-				H.setLineWrap(true);
-				H.setWrapStyleWord(true);
-				H.setOpaque(false);
-				H.setSize(200, 50);
-				H.setFont(new Font("Monospaced", Font.BOLD, 20));
-				H.setLocation(70,399);
-				
-				JTextArea A = new JTextArea(atk[skaits[0]]);
-				A.setLineWrap(true);
-				A.setWrapStyleWord(true);
-				A.setOpaque(false);
-				A.setSize(200, 50);
-				A.setFont(new Font("Monospaced", Font.BOLD, 20));
-				A.setLocation(90,420);
-				
-				JTextArea S = new JTextArea(spd[skaits[0]]);
-				S.setLineWrap(true);
-				S.setWrapStyleWord(true);
-				S.setOpaque(false);
-				S.setSize(200, 50);
-				S.setFont(new Font("Monospaced", Font.BOLD, 20));
-				S.setLocation(90,445);
-				
-				INF.add(N);
-				INF.add(H);
-				INF.add(A);
-				INF.add(S);
-				INF.add(apraksts);
-				INF.add(bildite);
-				Pokemon.add(tips);
-			});
-		});
+		Pokedex.addActionListener(e -> openPokedexWindow());
 		
 		
 		stiagat.addActionListener(e -> {
@@ -544,12 +329,8 @@ public class Pokedatnis {
 		
 		
 		Shop.addActionListener(e -> {
-			Pokemon.removeAll();
-			Pokemon.revalidate();
-			Pokemon.repaint();
-			panel.removeAll();
-			panel.revalidate();
-			panel.repaint();
+			UIStateManager.clearAndRefresh(Pokemon);
+			UIStateManager.clearAndRefresh(panel);
 			
 			ImageIcon s = new ImageIcon("bildes/shop.png");
 			JLabel shop = new JLabel(s);
@@ -561,7 +342,7 @@ public class Pokedatnis {
 			shop.revalidate();
 			shop.repaint();
 			
-			panel.add(shop);
+			UIStateManager.setPanelContent(panel, shop);
 			
 		});
 		
@@ -638,77 +419,23 @@ public class Pokedatnis {
 	    back.setContentAreaFilled(false);
 	    back.setBorderPainted(false);*/
 		Random rand = new Random();
-		String []izvele = {"Squirtle112.png", "Elekid1.png","Int.png"};
+		String []izvele = {"Squirtle112.png", "WartortleEncounter.png", "Elekid1.png","Int.png"};
 		String png;
 		if(iespeja == -1) {
 			png = izvele[rand.nextInt(izvele.length)];
 		}else {
 			png = nodots;
 		}
+		markSeenByEncounterImage(png);
 		back.addActionListener(e -> {
 			logs.removeAll();
 			logs.revalidate();
 			logs.repaint();
 			triggerRandomPanel(png, "");
 		});
-		if(poki.size()>0)
-		if(fighting) {
-			String tst =""+((Pokemons)poki.get(0)).getVards();
-			String a = "";
-			switch(tst) {
-			case "Squirtle":
-				a="Squirtle112.png";
-				break;
-			case "Elekid":
-				a="Elekid1.png";
-				break;
-			}
-			JLabel tavs = pokedex(a);
-			tavs.setSize(200, 200);
-			tavs.setLocation(10,200);
-			
-			JLabel pret = pokedex(nodots);
-			if(nodots == "Int.png") {
-				pret.setSize(200, 400);
-				pret.setLocation(585,212);
-		    }else {
-		    	pret.setSize(200, 200);
-			    pret.setLocation(540,200);
-		    }
-			
-			JLabel scene = new JLabel(new ImageIcon("bildes/ekra.png"));
-			scene.setSize(751, 560);
-			scene.add(pret);
-			scene.add(tavs);
-			
-			logs.add(scene);
-			JLabel fopc = new JLabel(new ImageIcon("bildes/fight.png"));
-			fopc.setSize(751, 560);
-			 JButton atak = new JButton();
-				 atak.setSize(140,38);
-				 atak.setLocation(305, 210);
-				 atak.setOpaque(false);
-				 atak.setContentAreaFilled(false);
-				 atak.setBorderPainted(false);
-		 	JButton defe = new JButton();
-		 	defe.setSize(140,38);
-		 	defe.setLocation(305, 260);
-		 	defe.setOpaque(false);
-			defe.setContentAreaFilled(false);
-			atak.setBorderPainted(false);
-			
-			fopc.add(atak);
-			fopc.add(defe);
-			scene.add(fopc)	;
-			
-			atak.addActionListener(e -> {
-				scene.remove(fopc);
-				scene.revalidate();
-				scene.repaint();
-				
-				
-			});	
-			//triggerRandomPanel(nodots,"");
+		if(poki.size()>0 && fighting) {
+			showBattleScreen(logs, png);
+			return;
 		}
 		if(iespeja==0) {
 			switch(bumb) {
@@ -740,6 +467,14 @@ public class Pokedatnis {
 						48,
 						43));
 				break;
+			case "WartortleEncounter.png":
+				poki.add(new UdensP(
+						"Water",
+						"Wartortle",
+						59,
+						63,
+						58));
+				break;
 			case "Elekid1.png":
 				poki.add(new ElektriskaisP(
 						"Electric",
@@ -757,6 +492,13 @@ public class Pokedatnis {
 						95));
 				break;
 			}
+			if(!poki.isEmpty()) {
+				Pokemons latest = (Pokemons) poki.get(poki.size() - 1);
+				seenPokemon.add(latest.getVards());
+				caughtPokemon.add(latest.getVards());
+				showStatusMessage("Caught: " + latest.getVards());
+			}
+			saveProgress();
 			iespeja=-1;
         }else {
 		    
@@ -805,7 +547,7 @@ public class Pokedatnis {
 				}
 		    });
 		    JLabel bilde = pokedex(png);
-		    if(png == "Int.png") {
+		    if("Int.png".equals(png)) {
 			    bilde.setSize(200, 400);
 			    bilde.setLocation(250,0);
 		    }else {
@@ -867,6 +609,7 @@ public class Pokedatnis {
 					if(PBsk[0]>0) {
 						PBsk[0]-=1;
 						PokeballSk.setText(String.valueOf(PBsk[0]));
+						saveProgress();
 						iespeja=rand.nextInt(3);
 						logs.removeAll();
 				    	main.remove(logs);
@@ -880,6 +623,7 @@ public class Pokedatnis {
 					if(MBsk[0]>0) {
 						MBsk[0]-=1;
 						MediumballSk.setText(String.valueOf(MBsk[0]));
+						saveProgress();
 						iespeja=rand.nextInt(2);
 						logs.removeAll();
 				    	main.remove(logs);
@@ -892,6 +636,7 @@ public class Pokedatnis {
 					if(UBsk[0]>0) {
 						UBsk[0]-=1;
 						UltraballSk.setText(String.valueOf(UBsk[0]));
+						saveProgress();
 						iespeja=rand.nextInt(1);
 						logs.removeAll();
 				    	main.remove(logs);
@@ -908,6 +653,10 @@ public class Pokedatnis {
 	            main.remove(logs);
 	            main.revalidate();
 	            main.repaint();
+	            fighting = false;
+	            activeBattle = null;
+	            activeBattleEnemy = null;
+	            activeBattleEnemyImage = null;
 	            Pokedatnis.kust.setVisible(true);
 	        });
 		    
@@ -916,6 +665,9 @@ public class Pokedatnis {
 		    	logs.revalidate();
 				logs.repaint();
 				fighting = true;
+				activeBattle = null;
+				activeBattleEnemy = null;
+				activeBattleEnemyImage = null;
 				try {
 					start();
 				} catch (UnsupportedAudioFileException | IOException | LineUnavailableException e1) {
@@ -926,6 +678,304 @@ public class Pokedatnis {
 		}
 		
 		
+	}
+
+	private static void openPokedexWindow() {
+		JFrame frame = new JFrame("Pokedex");
+		frame.setSize(700, 450);
+		frame.setLocation(220, 120);
+		frame.setLayout(null);
+		frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+
+		JTextField search = new JTextField();
+		search.setBounds(20, 20, 240, 28);
+		frame.add(search);
+
+		JComboBox<String> filter = new JComboBox<>(new String[] {"All", "Seen", "Caught", "Unseen"});
+		filter.setBounds(280, 20, 130, 28);
+		frame.add(filter);
+
+		JTextArea details = new JTextArea();
+		details.setEditable(false);
+		details.setLineWrap(true);
+		details.setWrapStyleWord(true);
+		details.setBounds(20, 70, 640, 260);
+		frame.add(details);
+
+		JButton prev = new JButton("Prev");
+		prev.setBounds(430, 20, 100, 28);
+		frame.add(prev);
+		JButton next = new JButton("Next");
+		next.setBounds(540, 20, 100, 28);
+		frame.add(next);
+
+		final int[] index = {0};
+		Runnable render = () -> {
+			List<Integer> filtered = getFilteredPokedexIndexes(search.getText(), (String) filter.getSelectedItem());
+			if (filtered.isEmpty()) {
+				details.setText("No Pokémon matched your filter.");
+				return;
+			}
+			index[0] = PokedexWindowState.normalizeIndex(index[0], filtered.size());
+			int dexIndex = filtered.get(index[0]);
+			skaits[0] = dexIndex;
+			String pokeName = name[dexIndex];
+			String seenState = seenPokemon.contains(pokeName) ? "Seen" : "Unseen";
+			String caughtState = caughtPokemon.contains(pokeName) ? "Caught" : "Not caught";
+			details.setText(
+					"#" + (dexIndex + 1) + " " + pokeName + "\n"
+					+ "HP: " + hp[dexIndex] + "  ATK: " + atk[dexIndex] + "  SPD: " + spd[dexIndex] + "\n"
+					+ "Status: " + seenState + " / " + caughtState + "\n\n"
+					+ info[dexIndex]);
+		};
+
+		search.addActionListener(e -> {
+			index[0] = 0;
+			render.run();
+		});
+		search.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void insertUpdate(DocumentEvent e) {
+				index[0] = 0;
+				render.run();
+			}
+
+			@Override
+			public void removeUpdate(DocumentEvent e) {
+				index[0] = 0;
+				render.run();
+			}
+
+			@Override
+			public void changedUpdate(DocumentEvent e) {
+				index[0] = 0;
+				render.run();
+			}
+		});
+		filter.addActionListener(e -> {
+			index[0] = 0;
+			render.run();
+		});
+		prev.addActionListener(e -> {
+			index[0]--;
+			render.run();
+		});
+		next.addActionListener(e -> {
+			index[0]++;
+			render.run();
+		});
+
+		render.run();
+		frame.setVisible(true);
+	}
+
+	private static List<Integer> getFilteredPokedexIndexes(String query, String filter) {
+		return PokedexFilter.filterIndexes(name, query, filter, seenPokemon, caughtPokemon);
+	}
+
+	private static void showBattleScreen(JPanel logs, String enemyImage) {
+		Pokemons playerMon = (Pokemons) poki.get(0);
+		if (activeBattle == null || activeBattleEnemy == null || !enemyImage.equals(activeBattleEnemyImage)) {
+			activeBattleEnemy = createEncounterPokemon(enemyImage);
+			activeBattleEnemyImage = enemyImage;
+			if (activeBattleEnemy == null) {
+				fighting = false;
+				return;
+			}
+			activeBattle = new BattleSystem(playerMon, activeBattleEnemy);
+		}
+		Pokemons enemyMon = activeBattleEnemy;
+		if (enemyMon == null) {
+			fighting = false;
+			return;
+		}
+		JLabel scene = new JLabel(new ImageIcon("bildes/ekra.png"));
+		scene.setSize(751, 560);
+
+		String playerImage = getEncounterImageByName(playerMon.getVards());
+		if (playerImage != null) {
+			JLabel yourMon = pokedex(playerImage);
+			yourMon.setSize(200, 200);
+			yourMon.setLocation(10, 200);
+			scene.add(yourMon);
+		}
+
+		JLabel foe = pokedex(enemyImage);
+		foe.setSize("Int.png".equals(enemyImage) ? 200 : 200, "Int.png".equals(enemyImage) ? 400 : 200);
+		foe.setLocation("Int.png".equals(enemyImage) ? 585 : 540, "Int.png".equals(enemyImage) ? 212 : 200);
+		scene.add(foe);
+
+		JTextArea battleLog = new JTextArea("Battle started: " + playerMon.getVards() + " vs " + enemyMon.getVards());
+		battleLog.setEditable(false);
+		battleLog.setLineWrap(true);
+		battleLog.setWrapStyleWord(true);
+		battleLog.setBounds(20, 410, 710, 110);
+		scene.add(battleLog);
+
+		JButton basic = new JButton("Basic Skill");
+		basic.setBounds(300, 200, 140, 32);
+		scene.add(basic);
+		JButton special = new JButton("Special Skill");
+		special.setBounds(300, 242, 140, 32);
+		scene.add(special);
+
+		java.awt.event.ActionListener action = e -> {
+			boolean useSpecial = e.getSource() == special;
+			BattleSystem.TurnResult result = activeBattle.performTurn(useSpecial);
+			playerMon.setHP(activeBattle.getPlayerHp());
+			enemyMon.setHP(activeBattle.getEnemyHp());
+			battleLog.setText(result.log);
+			if (result.finished) {
+				basic.setEnabled(false);
+				special.setEnabled(false);
+				fighting = false;
+				activeBattle = null;
+				activeBattleEnemy = null;
+				activeBattleEnemyImage = null;
+				if (result.playerWon) {
+					showStatusMessage("Battle won against " + enemyMon.getVards());
+				} else {
+					showStatusMessage("Battle lost against " + enemyMon.getVards());
+				}
+				saveProgress();
+			}
+		};
+		basic.addActionListener(action);
+		special.addActionListener(action);
+
+		logs.removeAll();
+		logs.add(scene);
+		UIStateManager.refresh(logs);
+	}
+
+	private static Pokemons createEncounterPokemon(String imageName) {
+		switch(imageName) {
+		case "Squirtle112.png":
+			return new UdensP("Water", "Squirtle", 44, 48, 43);
+		case "WartortleEncounter.png":
+			return new UdensP("Water", "Wartortle", 59, 63, 58);
+		case "Elekid1.png":
+			return new ElektriskaisP("Electric", "Elekid", 45, 63, 95);
+		case "Int.png":
+			return new ElektriskaisP("Electric", "Intars", 45, 63, 95);
+		default:
+			return null;
+		}
+	}
+
+	private static String getEncounterImageByName(String pokemonName) {
+		switch(pokemonName) {
+		case "Squirtle":
+			return "Squirtle112.png";
+		case "Wartortle":
+			return "WartortleEncounter.png";
+		case "Blastoise":
+			return "Blastoise12.gif";
+		case "Lickitung":
+			return "Lick1.gif";
+		case "Lickylicky":
+			return "lickylicky.gif";
+		case "Elekid":
+			return "Elekid1.png";
+		case "Electabuzz":
+			return "electabuzz.gif";
+		case "Electivire":
+			return "electivire.gif";
+		case "Intars":
+			return "Int.png";
+		default:
+			showStatusMessage("Unknown sprite for " + pokemonName + ".");
+			return null;
+		}
+	}
+
+	private static void markSeenByEncounterImage(String imageName) {
+		Pokemons p = createEncounterPokemon(imageName);
+		if (p != null) {
+			seenPokemon.add(p.getVards());
+			saveProgress();
+		}
+	}
+
+	public static void addPokeballs(int count) {
+		PBsk[0] += count;
+		PokeballSk.setText(String.valueOf(PBsk[0]));
+		saveProgress();
+	}
+
+	public static void showStatusMessage(String message) {
+		if (statusMessage != null) {
+			statusMessage.setText(message);
+		}
+	}
+
+	public static void saveProgress() {
+		try {
+			GameState state = new GameState();
+			state.pokeball = PBsk[0];
+			state.mediumball = MBsk[0];
+			state.ultraball = UBsk[0];
+			state.pokedexIndex = skaits[0];
+			state.seen.addAll(seenPokemon);
+			state.caught.addAll(caughtPokemon);
+			state.playerWorldX = gamePanel.player.worldX;
+			state.playerWorldY = gamePanel.player.worldY;
+			state.worldItemCollected = gamePanel.worldInteractionManager.isItemCollected();
+
+			for (Object o : poki) {
+				if (o instanceof Pokemons) {
+					Pokemons p = (Pokemons) o;
+					GameState.PokemonData data = new GameState.PokemonData();
+					data.type = p.getClass().getSimpleName();
+					data.name = p.getVards();
+					data.hp = p.getHP();
+					data.atk = p.getATK();
+					data.spd = p.getSPD();
+					state.captured.add(data);
+				}
+			}
+			SaveManager.save(state);
+		} catch (Exception e) {
+			showStatusMessage("Save failed: " + e.getMessage());
+		}
+	}
+
+	public static void loadProgress() {
+		try {
+			GameState state = SaveManager.load();
+			if (state == null) {
+				return;
+			}
+			PBsk[0] = state.pokeball;
+			MBsk[0] = state.mediumball;
+			UBsk[0] = state.ultraball;
+			skaits[0] = state.pokedexIndex;
+			PokeballSk.setText(String.valueOf(PBsk[0]));
+			MediumballSk.setText(String.valueOf(MBsk[0]));
+			UltraballSk.setText(String.valueOf(UBsk[0]));
+
+			seenPokemon.clear();
+			seenPokemon.addAll(state.seen);
+			caughtPokemon.clear();
+			caughtPokemon.addAll(state.caught);
+			seenPokemon.addAll(caughtPokemon);
+
+			poki.clear();
+			for (GameState.PokemonData data : state.captured) {
+				if ("UdensP".equals(data.type)) {
+					poki.add(new UdensP("Water", data.name, data.hp, data.atk, data.spd));
+				} else if ("ElektriskaisP".equals(data.type)) {
+					poki.add(new ElektriskaisP("Electric", data.name, data.hp, data.atk, data.spd));
+				}
+			}
+
+			gamePanel.player.worldX = state.playerWorldX;
+			gamePanel.player.worldY = state.playerWorldY;
+			gamePanel.worldInteractionManager.restoreItemState(state.worldItemCollected);
+			showStatusMessage("Progress loaded");
+		} catch (Exception e) {
+			showStatusMessage("Load failed: " + e.getMessage());
+		}
 	}
 	
 }
